@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+//Hello wOELD!
+
 Status game_load_spaces(Game *game, char *filename) {
   FILE *file = NULL;
   char line[WORD_SIZE] = "";
