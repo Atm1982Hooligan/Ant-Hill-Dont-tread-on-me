@@ -1,12 +1,9 @@
 #include "game_reader.h"
 #include "space.h"
+#include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-//Hello wOELD!
-
-//SDSDSDSD
 
 Status game_load_spaces(Game *game, char *filename) {
   FILE *file = NULL;
@@ -64,20 +61,26 @@ Status game_load_spaces(Game *game, char *filename) {
 }
 
 Status game_add_space(Game *game, Space *space) {
-  if ((space == NULL) || (game->n_spaces >= MAX_SPACES)) {
+  Space *java;
+  
+  if ((space == NULL) || (game_get_number_of_spaces(game) >= MAX_SPACES)) {
     return ERROR;
   }
+  
+  java =  game_get_space_at(game, game_get_number_of_spaces(game));
 
-  game->spaces[game->n_spaces] = space;
-  game->n_spaces++;
+  space_destroy(java);
+  java = space;
+  /*game->spaces[game_get_number_of_spaces(game)] = space;*/
+  (*game_get_numid_pointer(game))++;
 
   return OK;
 }
 
 Id game_get_space_id_at(Game *game, int position) {
-  if (position < 0 || position >= game->n_spaces) {
+  if (position < 0 || position >= game_get_number_of_spaces(game)) {
     return NO_ID;
   }
 
-  return space_get_id(game->spaces[position]);
+  return space_get_id(game_get_space_at(game, position));
 }

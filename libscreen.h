@@ -15,8 +15,6 @@ typedef struct _Area Area;
 
 /**
  * @brief It creates a new screen
- * @author Profesores PPROG
- *
  * This function should be called at the beginning of the program,
  *  so the complete screen is allocated before starting defining areas.
  * @param rows the number of rows that will have the full screen

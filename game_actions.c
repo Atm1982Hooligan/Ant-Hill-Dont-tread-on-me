@@ -18,13 +18,53 @@
    Private functions
 */
 
+/**
+ * @brief Handles the "unknown" command.
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game structure.
+ */
 void game_actions_unknown(Game *game);
 
+/**
+ * @brief Handles the "exit" command.
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game structure.
+ */
 void game_actions_exit(Game *game);
 
+/**
+ * @brief Handles the "next" command.
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game structure.
+ */
 void game_actions_next(Game *game);
 
+/**
+ * @brief Handles the "back" command.
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game structure.
+ */
 void game_actions_back(Game *game);
+
+/**
+ * @brief Handles the "take" command.
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game structure.
+ */
+void game_actions_take(Game *game);
+
+/**
+ * @brief Handles the "drop" command.
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game structure.
+ */
+void game_actions_drop(Game *game);
 
 /**
    Game actions implementation
@@ -52,6 +92,14 @@ Status game_actions_update(Game *game, Command *command) {
 
     case BACK:
       game_actions_back(game);
+      break;
+
+    case TAKE:
+      game_actions_take(game);
+      break;
+      
+    case DROP:
+      game_actions_drop(game);
       break;
 
     default:
@@ -102,4 +150,30 @@ void game_actions_back(Game *game) {
   }
 
   return;
+}
+
+void game_actions_take(Game *game) {
+  Id object_id = NO_ID;
+  Id player_id = NO_ID;
+
+  object_id = game_get_object_location(game);
+  player_id = game_get_player_location(game);
+
+  if ((object_id == player_id) && (player_get_object(game_get_player(game)) == FALSE)) {
+    game_set_object_location(game, NO_ID);
+    player_set_object(game_get_player(game), TRUE);
+  }
+}
+
+void game_actions_drop(Game *game) {
+  Id object_id = NO_ID;
+  Id player_id = NO_ID;
+
+  object_id = game_get_object_location(game);
+  player_id = game_get_player_location(game);
+
+  if ((object_id == NO_ID) && (player_get_object(game_get_player(game)) == TRUE)) {
+    game_set_object_location(game, player_id);
+    player_set_object(game_get_player(game), FALSE);
+  }
 }

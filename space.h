@@ -12,8 +12,10 @@
 #define SPACE_H
 
 #include "types.h"
+#include "objects.h"
 
 typedef struct _Space Space;
+
 
 /**
  * @brief It creates a new space, allocating memory and initializing its members

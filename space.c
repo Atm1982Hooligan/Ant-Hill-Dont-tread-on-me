@@ -9,6 +9,7 @@
  */
 
 #include "space.h"
+#include "objects.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,13 +27,14 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Bool object;              /*!< Whether the space has an object or not */
+  Object *object;              /*!< Whether the space has an object or not */
 };
+
 
 /** space_create allocates memory for a new space
  *  and initializes its members
  */
-Space* space_create(Id id) {
+Space *space_create(Id id) {
   Space* newSpace = NULL;
 
   /* Error control */
@@ -50,7 +52,10 @@ Space* space_create(Id id) {
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
-  newSpace->object = FALSE;
+
+
+  newSpace->object = object_create(NO_ID);
+  object_set_location(newSpace->object, id);
 
   return newSpace;
 }
@@ -58,6 +63,11 @@ Space* space_create(Id id) {
 Status space_destroy(Space* space) {
   if (!space) {
     return ERROR;
+  }
+
+  if (space->object) {   
+    object_destroy(space->object);
+    space->object = NULL;
   }
 
   free(space);
@@ -154,7 +164,15 @@ Status space_set_object(Space* space, Bool value) {
   if (!space) {
     return ERROR;
   }
-  space->object = value;
+
+  if (space->object != NULL)
+  {
+    value = TRUE;
+  }else
+  {
+    value = FALSE;
+  }
+  
   return OK;
 }
 
@@ -162,7 +180,15 @@ Bool space_get_object(Space* space) {
   if (!space) {
     return FALSE;
   }
-  return space->object;
+
+  if (space->object != NULL)
+  {
+    return TRUE;
+  }else
+  {
+    return FALSE;
+  }
+  
 }
 
 Status space_print(Space* space) {

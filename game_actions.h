@@ -15,6 +15,15 @@
 #include "game.h"
 #include "types.h"
 
+/**
+ * @brief Updates the game state based on the given command.
+ * @author Profesores PPROG
+ * 
+ * @param game A pointer to the game structure to be updated.
+ * @param cmd A pointer to the command to be processed.
+ * @return OK if the update was successful, ERROR otherwise.
+ */
 Status game_actions_update(Game *game, Command *cmd);
 
 #endif
+
