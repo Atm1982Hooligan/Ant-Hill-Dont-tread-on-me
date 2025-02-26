@@ -15,21 +15,23 @@
 #include <string.h>
 
 struct _Player {
-  Id id;                    /*!< Id number of the player, it must be unique */
-  char name[WORD_SIZE + 1]; /*!< Name of the player */
-  Id location;                 /*!< Where is the player*/
-  short object;              /*!< how many objets the player has*/
+  Id id; /*Player's id*/
+  char name[WORD_SIZE + 1]; /*Player's name*/
+  Id location; /*Player's location*/
+  Bool object; /*Player's object*/
 };
+
 
 Player* player_create(Id id) {
   Player* newPlayer = NULL;
+
 
   newPlayer = (Player*)malloc(sizeof(Player));
   if (newPlayer == NULL) {
     return NULL;
   }
 
-  /* Initialization of an empty player */
+  /* Initialization of an empty space*/
   newPlayer->id = id;
   newPlayer->name[0] = '\0';
   newPlayer->location = NO_ID;
@@ -42,6 +44,7 @@ Status player_destroy(Player *player) {
   if (!player) {
     return ERROR;
   }
+
 
   free(player);
   player = NULL;
@@ -85,31 +88,20 @@ Bool player_get_object(Player* player) {
   if ((player) == NULL) {
     return FALSE;
   }
-  return player->object;
-}
-
-Status player_set_location(Player* player, Id location) {
-  if ((player) == NULL) {
-    return ERROR;
-  }
-  player->location = location;
-  return OK;
-}
-
-Id player_get_location(Player* player) {
-  if ((player) == NULL) {
-    return NO_ID;
-  }
-  return player->location;
+  
+  
+  return player->object;  
+  /*return TRUE;*/
 }
 
 Status player_print(Player* player) {
-  /* Error Control */
+  
+  /*Error Control */
   if ((player) == NULL) {
     return ERROR;
   }
 
-  /* 1. Print the id and the name of the player */
+  /* 1. Print the id and the name of the player*/
   fprintf(stdout, "--> Player (Id: %ld; Name: %s)\n", player->id, player->name);
 
   /* 2. Print if there is an object in the player or not */
@@ -120,4 +112,19 @@ Status player_print(Player* player) {
   }
 
   return OK;
+}
+
+
+Id player_get_location(Player* player) {
+  if (!player) {
+    return NO_ID;
+  }
+  return player->location;
+}
+
+Id *player_get_location_pointer(Player* player) {
+  if (!player) {
+    return NULL;
+  }
+  return &(player->location);
 }

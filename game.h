@@ -28,19 +28,17 @@
  */
 typedef struct _Game Game;
 
+
 /**
  * @brief Creates a new game.
-
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure to be initialized.
  * @return OK if the game was successfully created, ERROR otherwise.
  */
 Status game_create(Game **game);
-
 /**
  * @brief Creates a new game from a file.
- * 
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure to be initialized.
@@ -49,9 +47,9 @@ Status game_create(Game **game);
  */
 Status game_create_from_file(Game **game, char *filename);
 
+
 /**
- * @brief Destroys a game, freeing the allocated memory*
- * 
+ * @brief Destroys a game, freeing the allocated memory.
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure to be destroyed.
@@ -59,9 +57,9 @@ Status game_create_from_file(Game **game, char *filename);
  */
 Status game_destroy(Game *game);
 
+
 /**
- * @brief Gets a space by its ID*.
- * 
+ * @brief Gets a space by its ID.
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -71,8 +69,17 @@ Status game_destroy(Game *game);
 Space *game_get_space(Game *game, Id id);
 
 /**
+ * @brief Gets a space by its ID.
+ * @author Profesores PPROG
+ *
+ * @param game A pointer to the game structure.
+ * @param id The ID of the space to retrieve.
+ * @return A pointer to the space, or NULL if the space is not found.
+ */
+Player *game_get_player(Game *game);
+
+/**
  * @brief Gets the player's current location.
- * 
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -82,7 +89,6 @@ Id game_get_player_location(Game *game);
 
 /**
  * @brief Sets the player's location.
- * 
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -93,7 +99,6 @@ Status game_set_player_location(Game *game, Id id);
 
 /**
  * @brief Gets the object's current location.
- * 
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -103,7 +108,6 @@ Id game_get_object_location(Game *game);
 
 /**
  * @brief Sets the object's location.
- * 
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -113,8 +117,7 @@ Id game_get_object_location(Game *game);
 Status game_set_object_location(Game *game, Id id);
 
 /**
- * @brief Gets the last command executed.*
- * 
+ * @brief Gets the last command executed.
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -124,7 +127,6 @@ Command* game_get_last_command(Game *game);
 
 /**
  * @brief Sets the last command executed.
- * 
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -135,7 +137,6 @@ Status game_set_last_command(Game *game, Command *command);
 
 /**
  * @brief Checks if the game is finished.
- * 
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -145,7 +146,6 @@ Bool game_get_finished(Game *game);
 
 /**
  * @brief Sets the game's finished status.
- * 
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
@@ -155,52 +155,30 @@ Bool game_get_finished(Game *game);
 Status game_set_finished(Game *game, Bool finished);
 
 /**
- * @brief Prints de game state.
- * 
+ * @brief Prints the game state.
  * @author Profesores PPROG
  *
  * @param game A pointer to the game structure.
  */
 void game_print(Game *game);
 
-/**
- * @brief Gets the player.
- * 
- * @author Profesores PPROG
- *
- * @param game A pointer to the game structure.
- * @return A pointer to the player.
- */
-Player* game_get_player(Game *game);
+/*ADDITIONAL FUNCTIONS*/
+
 
 /**
  * @brief Gets the number of spaces in the game.
- * 
- * @author Alejandro Gonzalez
  *
  * @param game A pointer to the game structure.
  * @return The number of spaces in the game.
  */
-int game_get_number_of_spaces(Game *game);
+int *game_get_n_spaces(Game *game);
 
 /**
- * @brief Gets a space at a specific position.
- * 
- * @author Alejandro Gonzalez
+ * @brief Gets the spaces in the game.
  *
  * @param game A pointer to the game structure.
- * @param position The position of the space to retrieve.
- * @return A pointer to the space, or NULL if the position is invalid.
+ * @return The spaces in the game.
  */
-Space* game_get_space_at(Game *game, int position);
+Space** game_get_spaces(Game *game);
 
-/**
- * @brief Get the number of spaces in the game.
- * 
- * @author Alejandro Gonzalez
- * 
- * @param game A pointer to the game structure.
- * @return a pointer to the number of spaces in the game.
- */
-int* game_get_numid_pointer(Game *game);
 #endif

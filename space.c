@@ -20,6 +20,12 @@
  *
  * This struct stores all the information of a space.
  */
+
+
+/** space_create allocates memory for a new space
+ *  and initializes its members
+ */
+
 struct _Space {
   Id id;                    /*!< Id number of the space, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
@@ -27,16 +33,18 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Object *object;              /*!< Whether the space has an object or not */
+  Object *object;           /*!< Whether the space has an object or not */
+
+
 };
 
 
-/** space_create allocates memory for a new space
- *  and initializes its members
- */
-Space *space_create(Id id) {
+Space* space_create(Id id) {
   Space* newSpace = NULL;
-
+  Id *objectLocation =  NULL;
+  
+  
+  
   /* Error control */
   if (id == NO_ID) return NULL;
 
@@ -55,7 +63,12 @@ Space *space_create(Id id) {
 
 
   newSpace->object = object_create(NO_ID);
-  object_set_location(newSpace->object, id);
+  objectLocation =  object_get_location_pointer(newSpace->object);
+
+  
+  if (objectLocation != NULL) {
+    *objectLocation = id;
+  }
 
   return newSpace;
 }
@@ -67,7 +80,6 @@ Status space_destroy(Space* space) {
 
   if (space->object) {   
     object_destroy(space->object);
-    space->object = NULL;
   }
 
   free(space);

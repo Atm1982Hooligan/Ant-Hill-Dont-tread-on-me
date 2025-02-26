@@ -18,7 +18,7 @@
 #include "types.h"
 
 typedef struct _Object Object;
- 
+
 
 #define MAX_SPACES 100
 
@@ -50,6 +50,26 @@ Status object_destroy(Object* object);
  */
 Id object_get_id(Object* object);
 
+
+/** 
+ * @brief It gets the location of a object
+ * @author Andres Falcon
+ * 
+ * @param object a pointer to the object
+ * @return Id of the location of the object, NO_ID if there was some mistake
+ */
+Id object_get_location(Object* object);
+
+/** 
+ * @brief It gets the location of a object
+ * @author Andres Falcon
+ * 
+ * @param object a pointer to the object
+ * @return Pointer of the location of the object, NO_ID if there was some mistake
+ */
+Id *object_get_location_pointer(Object* object);
+
+
 /**
  * @brief It sets the name of a object
  * @author Andres Falcon
@@ -69,23 +89,5 @@ Status object_set_name(Object* object, char* name);
  */
 const char* object_get_name(Object* object);
 
-/**
- * @brief It sets the location of a osetsbject
- * @author Andres Falcon
- *
- * @param object a pointer to the object
- * @param location the id of the location to store
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status object_set_location(Object* object, Id location);
-
-/**
- * @brief It gets the location of a object
- * @author Andres Falcon
- *
- * @param object a pointer to the object
- * @return the id of the location of the object
- */
-Id object_get_location(Object* object);
 
 #endif

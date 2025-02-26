@@ -81,25 +81,6 @@ Status player_set_object(Player* player, Bool value);
 Bool player_get_object(Player* player);
 
 /**
- * @brief It sets the location of a player in the space of the game world
- * @author Alejandro Gonzalez
- * 
- * @param player a pointer to the player
- * @param location the id of the space where the player is located
- * @return OK, if everything goes well or ERROR if there was some mistake
- */
-Status player_set_location(Player* player, Id location);
-
-/**
- * @brief It gets the location of a player in the space of the game world
- * @author Alejandro Gonzalez
- * 
- * @param player a pointer to the player
- * @return the id of the space where the player is located
- */
-Id player_get_location(Player* player);
-
-/**
  * @brief It prints the player information
  * @author Alejandro Gonzalez
  *
@@ -108,5 +89,9 @@ Id player_get_location(Player* player);
  * @return OK, if everything goes well or ERROR if there was some mistake 
  */
 Status player_print(Player* player);
+
+Id player_get_location(Player* player);
+
+Id *player_get_location_pointer(Player* player); 
 
 #endif

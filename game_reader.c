@@ -1,6 +1,5 @@
 #include "game_reader.h"
 #include "space.h"
-#include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -60,27 +59,33 @@ Status game_load_spaces(Game *game, char *filename) {
   return status;
 }
 
+
 Status game_add_space(Game *game, Space *space) {
-  Space *java;
-  
-  if ((space == NULL) || (game_get_number_of_spaces(game) >= MAX_SPACES)) {
+
+  int *numSpaces = game_get_n_spaces(game);
+  Space **spacePointer = game_get_spaces(game);
+
+  if ((space == NULL) || (*numSpaces >= MAX_SPACES) || (spacePointer == NULL) || numSpaces == NULL) {
     return ERROR;
   }
-  
-  java =  game_get_space_at(game, game_get_number_of_spaces(game));
 
-  space_destroy(java);
-  java = space;
-  /*game->spaces[game_get_number_of_spaces(game)] = space;*/
-  (*game_get_numid_pointer(game))++;
+
+  
+  spacePointer[*numSpaces] = space;
+  (*numSpaces)++;
 
   return OK;
 }
 
 Id game_get_space_id_at(Game *game, int position) {
-  if (position < 0 || position >= game_get_number_of_spaces(game)) {
+
+  int *numSpaces = game_get_n_spaces(game);
+  Space **SpacesPointer = game_get_spaces(game);
+
+  if (position < 0 || position >= *(numSpaces) || SpacesPointer == NULL || numSpaces == NULL) {
     return NO_ID;
   }
 
-  return space_get_id(game_get_space_at(game, position));
+  return space_get_id(SpacesPointer[position]);
 }
+
