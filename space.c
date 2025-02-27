@@ -43,8 +43,6 @@ Space* space_create(Id id) {
   Space* newSpace = NULL;
   Id *objectLocation =  NULL;
   
-  
-  
   /* Error control */
   if (id == NO_ID) return NULL;
 

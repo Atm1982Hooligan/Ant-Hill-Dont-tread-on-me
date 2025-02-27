@@ -43,7 +43,6 @@ Status game_create(Game **game) {
   if (*game == NULL) {
     *game = (Game *)malloc(sizeof(Game));
     if (!*game) {
-      free(*game);
       return ERROR;
     }
   }
@@ -54,8 +53,17 @@ Status game_create(Game **game) {
 
   (*game)->n_spaces = 0;
   (*game)->player = player_create(NO_ID);
+  if ((*game)->player == NULL) {
+    return ERROR;
+  }
   (*game)->object = object_create(NO_ID);
+  if ((*game)->object == NULL) {
+    return ERROR;
+  }
   (*game)->last_cmd = command_create();
+  if ((*game)->last_cmd == NULL) {
+    return ERROR;
+  }
   (*game)->finished = FALSE;
 
   return OK;
@@ -80,17 +88,34 @@ Status game_create_from_file(Game **game, char *filename) {
 Status game_destroy(Game *game) {
   int i = 0;
 
-  for (i = 0; i < game->n_spaces; i++) {
-    space_destroy(game->spaces[i]);
+  if (!game) {
+    return ERROR;
   }
 
-  
-  player_destroy(game->player);
-  object_destroy(game->object);
+  for (i = 0; i < game->n_spaces; i++) {
+    if (game->spaces[i] != NULL) {
+      space_destroy(game->spaces[i]);
+      game->spaces[i] = NULL;
+    }
+  }
 
-  command_destroy(game->last_cmd);
+  if (game->player != NULL) {
+    player_destroy(game->player);
+    game->player = NULL;
+  }
 
+  if (game->object != NULL) {
+    object_destroy(game->object);
+    game->object = NULL;
+  }
 
+  if (game->last_cmd != NULL) {
+    command_destroy(game->last_cmd);
+    game->last_cmd = NULL;
+  }
+
+  free(game);
+  game = NULL;
   return OK;
 }
 
