@@ -63,4 +63,23 @@ Status set_del(Set* set, Id id);
  */
 Status set_print(Set* set);
 
+/**
+ * @brief Gets the number of identifiers in the set.
+ * @author Alejandro González
+ * 
+ * @param set A pointer to the set.
+ * @return The number of identifiers in the set, or -1 if an error occurs.
+ */
+int set_get_count(Set* set);
+
+/**
+ * @brief Gets the identifier at a specific index in the set.
+ * @author Alejandro González
+ * 
+ * @param set A pointer to the set.
+ * @param index The index of the identifier to retrieve.
+ * @return The identifier at the specified index, or NO_ID if an error occurs.
+ */
+Id set_get_id_at(Set* set, int index);
+
 #endif

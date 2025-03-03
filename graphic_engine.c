@@ -73,6 +73,8 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   char str[255];
   CommandCode last_cmd = UNKNOWN;
   extern char *cmd_to_str[N_CMD][N_CMDT];
+  int i;
+  int game_n_objects = *(game_get_n_objects(game));
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);
@@ -81,11 +83,15 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     id_back = space_get_north(space_act);
     id_next = space_get_south(space_act);
 
-    if (game_get_object_location(game) == id_back)
-      obj = '*';
-    else
-      obj = ' ';
-
+    obj = ' ';
+ 
+    for (i = 0; i < game_n_objects; i++) {
+      if (game_get_object_location(game, i) == id_back) {
+        obj = '*';
+        break;
+      }
+    }
+    
     if (id_back != NO_ID) {
       sprintf(str, "  |        %3d|", (int)id_back);
       screen_area_puts(ge->map, str);
@@ -97,11 +103,15 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       screen_area_puts(ge->map, str);
     }
 
-    if (game_get_object_location(game) == id_act)
-      obj = '*';
-    else
-      obj = ' ';
+    obj = ' ';
 
+    for (i = 0; i < game_n_objects; i++) {
+      if (game_get_object_location(game, i) == id_act) {
+        obj = '*';
+        break;
+      }
+    }
+    
     if (id_act != NO_ID) {
       sprintf(str, "  +-----------+");
       screen_area_puts(ge->map, str);
@@ -113,10 +123,14 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
       screen_area_puts(ge->map, str);
     }
 
-    if (game_get_object_location(game) == id_next)
-      obj = '*';
-    else
-      obj = ' ';
+    obj = ' ';
+
+    for (i = 0; i < game_n_objects; i++) {
+      if (game_get_object_location(game, i) == id_next) {
+        obj = '*';
+        break;
+      }
+    }
 
     if (id_next != NO_ID) {
       sprintf(str, "        v");
@@ -132,9 +146,12 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
 
   /* Paint in the description area */
   screen_area_clear(ge->descript);
-  if ((obj_loc = game_get_object_location(game)) != NO_ID) {
-    sprintf(str, "  Object location:%d", (int)obj_loc);
-    screen_area_puts(ge->descript, str);
+
+  for (i = 0; i < game_n_objects; i++) {
+    if ((obj_loc = game_get_object_location(game, i)) != NO_ID) {
+      sprintf(str, "  Object location:%d", (int)obj_loc);
+      screen_area_puts(ge->descript, str);
+    }
   }
 
   /* Paint in the banner area */

@@ -157,7 +157,7 @@ Status space_set_object(Space* space, Bool value);
  * @param space a pointer to the space
  * @return a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
  */
-Bool space_get_object(Space* space);
+Bool space_get_object(Space* space, Id);
 
 /**
  * @brief It prints the space information

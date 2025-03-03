@@ -104,7 +104,7 @@ Status game_set_player_location(Game *game, Id id);
  * @param game A pointer to the game structure.
  * @return The ID of the object's current location.
  */
-Id game_get_object_location(Game *game);
+Id game_get_object_location(Game *game, int position);
 
 /**
  * @brief Sets the object's location.
@@ -114,7 +114,7 @@ Id game_get_object_location(Game *game);
  * @param id The ID of the new location.
  * @return OK if the location was successfully set, ERROR otherwise.
  */
-Status game_set_object_location(Game *game, Id id);
+Status game_set_object_location(Game *game, Id id, int position);
 
 /**
  * @brief Gets the last command executed.
@@ -180,5 +180,13 @@ int *game_get_n_spaces(Game *game);
  * @return The spaces in the game.
  */
 Space** game_get_spaces(Game *game);
+
+/**
+ * @brief Gets the number of objects in the game.
+ *
+ * @param game A pointer to the game structure.
+ * @return The number of objects in the game.
+ */
+int *game_get_n_objects(Game *game);
 
 #endif

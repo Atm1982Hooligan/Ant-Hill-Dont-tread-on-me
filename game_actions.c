@@ -155,28 +155,39 @@ void game_actions_back(Game *game) {
 void game_actions_take(Game *game){
   Id object_id = NO_ID;
   Id player_id = NO_ID;
+  int i = 0;
 
-  object_id = game_get_object_location(game);
   player_id = game_get_player_location(game);
-
-
   
-  if ((object_id == player_id) && (player_get_object(game_get_player(game))  == FALSE )) {
-    game_set_object_location(game, NO_ID); 
-    player_set_object(game_get_player(game), TRUE); 
+  if ((player_get_object(game_get_player(game))  == FALSE )) {
+    for (i = 0; i < *(game_get_n_objects(game)); i++) {
+      object_id = game_get_object_location(game, i);
+
+      if (object_id == player_id) {
+        game_set_object_location(game, NO_ID, i); 
+        player_set_object(game_get_player(game), TRUE); 
+      }
+
+    }    
   }
-  
+
 }
 
 void game_actions_drop(Game *game) {
   Id object_id = NO_ID;
   Id player_id = NO_ID;
+  int i;
 
-  object_id = game_get_object_location(game);
   player_id = game_get_player_location(game);
 
-  if ((object_id == NO_ID) && (player_get_object(game_get_player(game)) == TRUE)) {
-      game_set_object_location(game, player_id);  
-      player_set_object(game_get_player(game), FALSE);            
+  if ((player_get_object(game_get_player(game)) == TRUE)) {
+    for (i = 0; i < *(game_get_n_objects(game)); i++) {
+      object_id = game_get_object_location(game, i);
+
+      if (object_id == NO_ID) {
+        game_set_object_location(game, player_id, i);  
+        player_set_object(game_get_player(game), FALSE); 
+      }
+    }      
   }
 }

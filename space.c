@@ -10,6 +10,7 @@
 
 #include "space.h"
 #include "objects.h"
+#include "set.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,15 +34,14 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-  Object *object;           /*!< Whether the space has an object or not */
-
+           
+  Set *object_locations;     /*!< Set of objects in the space */ 
 
 };
 
 
 Space* space_create(Id id) {
   Space* newSpace = NULL;
-  Id *objectLocation =  NULL;
   
   /* Error control */
   if (id == NO_ID) return NULL;
@@ -51,7 +51,7 @@ Space* space_create(Id id) {
     return NULL;
   }
 
-  /* Initialization of an empty space*/
+  /* Initialization of an empty space */
   newSpace->id = id;
   newSpace->name[0] = '\0';
   newSpace->north = NO_ID;
@@ -59,13 +59,10 @@ Space* space_create(Id id) {
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
 
-
-  newSpace->object = object_create(NO_ID);
-  objectLocation =  object_get_location_pointer(newSpace->object);
-
-  
-  if (objectLocation != NULL) {
-    *objectLocation = id;
+  newSpace->object_locations = set_create();
+  if (newSpace->object_locations == NULL) {
+    free(newSpace);
+    return NULL;
   }
 
   return newSpace;
@@ -76,8 +73,8 @@ Status space_destroy(Space* space) {
     return ERROR;
   }
 
-  if (space->object) {   
-    object_destroy(space->object);
+  if (space->object_locations != NULL) {   
+    set_destroy(space->object_locations);
   }
 
   free(space);
@@ -175,34 +172,34 @@ Status space_set_object(Space* space, Bool value) {
     return ERROR;
   }
 
-  if (space->object != NULL)
-  {
+  if (set_get_count(space->object_locations) > 0) {
     value = TRUE;
-  }else
-  {
+  } else {
     value = FALSE;
   }
-  
+
   return OK;
 }
 
-Bool space_get_object(Space* space) {
-  if (!space) {
+Bool space_get_object(Space* space, Id id) {
+  int i, n_ids;
+
+  if (!space || id == NO_ID) {
     return FALSE;
   }
 
-  if (space->object != NULL)
-  {
-    return TRUE;
-  }else
-  {
-    return FALSE;
+  n_ids = set_get_count(space->object_locations);
+  for (i = 0; i < n_ids; i++) {
+    if (set_get_id_at(space->object_locations, i) == id) {
+      return TRUE;
+    }
   }
-  
+  return FALSE;
 }
 
 Status space_print(Space* space) {
   Id idaux = NO_ID;
+  int i, n_ids;
 
   /* Error Control */
   if (!space) {
@@ -239,10 +236,14 @@ Status space_print(Space* space) {
   }
 
   /* 3. Print if there is an object in the space or not */
-  if (space_get_object(space)) {
-    fprintf(stdout, "---> Object in the space.\n");
+  n_ids = set_get_count(space->object_locations);
+  if (n_ids > 0) {
+    fprintf(stdout, "---> Objects in the space:\n");
+    for (i = 0; i < n_ids; i++) {
+      fprintf(stdout, "------> Object Id: %ld\n", set_get_id_at(space->object_locations, i));
+    }
   } else {
-    fprintf(stdout, "---> No object in the space.\n");
+    fprintf(stdout, "---> No objects in the space.\n");
   }
 
   return OK;
