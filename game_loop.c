@@ -73,11 +73,12 @@
  }
  
  int game_loop_init(Game **game, Graphic_engine **gengine, char *file_name) {
-     if (game_create(game) == ERROR) {
+     /*if (game_create(game) == ERROR) {
          fprintf(stderr, "Error while allocating memory for game.\n");
          game_destroy(*game);
          return 1;
-     }
+     } Lo comento porque sino se llama dos veces a game_create y hay error de valgrind por la memoria sin liberar,
+      ya se llama a game create en game create from file*/
  
      if (game_create_from_file(game, file_name) == ERROR) {
          fprintf(stderr, "Error while initializing game.\n");
