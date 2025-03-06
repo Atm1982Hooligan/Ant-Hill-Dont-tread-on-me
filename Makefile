@@ -37,5 +37,8 @@ player.o: player.c
 set.o: set.c
 	$(CC) $(CFLAGS) -o $@ -c $<
 
+character.o: character.c
+	$(CC) $(CFLAGS) -o $@ -c $<
+
 clean:
 	rm -f anthill *.o
