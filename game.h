@@ -189,4 +189,12 @@ Space** game_get_spaces(Game *game);
  */
 int *game_get_n_objects(Game *game);
 
+/**
+ * @brief Gets the objects in the game.
+ *
+ * @param game A pointer to the game structure.
+ * @return The objects in the game.
+ */
+Object** game_get_objects(Game *game);
+
 #endif

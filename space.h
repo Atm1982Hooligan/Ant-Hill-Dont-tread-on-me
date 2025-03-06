@@ -141,29 +141,40 @@ Status space_set_west(Space* space, Id id);
 Id space_get_west(Space* space);
 
 /**
- * @brief It sets whether the space has an object or not
- * @author Profesores PPROG
- *
+ * @brief It adds an object to the space
+ * @author Alejandro González
+ * 
  * @param space a pointer to the space
- * @param value a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
+ * @param id the id of the object to add
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Status space_set_object(Space* space, Bool value);
+Status space_add_object(Space* space, Id id);
 
 /**
- * @brief It gets whether the space has an object or not
- * @author Profesores PPROG
- *
+ * @brief It removes an object from the space
+ * @author Alejandro González
+ * 
  * @param space a pointer to the space
- * @return a boolean, specifying if in the space there is an object (TRUE) or not (FALSE)
+ * @param id the id of the object to remove
+ * @return OK, if everything goes well or ERROR if there was some mistake
  */
-Bool space_get_object(Space* space, Id);
+Status space_remove_object(Space* space, Id id);
+
+/**
+ * @brief It checks if an object is in the space
+ * @author Alejandro González
+ * 
+ * @param space a pointer to the space
+ * @param id the id of the object to check
+ * @return TRUE if the object is in the space, FALSE otherwise
+ */
+Bool space_has_object(Space* space, Id id);
 
 /**
  * @brief It prints the space information
- * @author Profesores PPROG
- *
- * This fucntion shows the id and name of the space, the spaces that surrounds it and wheter it has an object or not.
+ * This function shows the id and name of the space, the spaces that surrounds it and whether it has an object or not.
+ * @author Alejandro González
+ * 
  * @param space a pointer to the space
  * @return OK, if everything goes well or ERROR if there was some mistake
  */

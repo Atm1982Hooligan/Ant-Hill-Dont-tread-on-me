@@ -21,12 +21,6 @@
  *
  * This struct stores all the information of a space.
  */
-
-
-/** space_create allocates memory for a new space
- *  and initializes its members
- */
-
 struct _Space {
   Id id;                    /*!< Id number of the space, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
@@ -34,11 +28,8 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-           
-  Set *object_locations;     /*!< Set of objects in the space */ 
-
+  Set *objects;             /*!< Set of objects in the space */
 };
-
 
 Space* space_create(Id id) {
   Space* newSpace = NULL;
@@ -59,8 +50,8 @@ Space* space_create(Id id) {
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
 
-  newSpace->object_locations = set_create();
-  if (newSpace->object_locations == NULL) {
+  newSpace->objects = set_create();
+  if (newSpace->objects == NULL) {
     free(newSpace);
     return NULL;
   }
@@ -70,11 +61,12 @@ Space* space_create(Id id) {
 
 Status space_destroy(Space* space) {
   if (!space) {
+    printf("Error: space is NULL in space_destroy\n");
     return ERROR;
   }
 
-  if (space->object_locations != NULL) {   
-    set_destroy(space->object_locations);
+  if (space->objects != NULL) {
+    set_destroy(space->objects);
   }
 
   free(space);
@@ -84,6 +76,7 @@ Status space_destroy(Space* space) {
 
 Id space_get_id(Space* space) {
   if (!space) {
+    printf("Error: space is NULL in space_get_id\n");
     return NO_ID;
   }
   return space->id;
@@ -91,6 +84,7 @@ Id space_get_id(Space* space) {
 
 Status space_set_name(Space* space, char* name) {
   if (!space || !name) {
+    printf("Error: invalid parameters in space_set_name\n");
     return ERROR;
   }
 
@@ -102,6 +96,7 @@ Status space_set_name(Space* space, char* name) {
 
 const char* space_get_name(Space* space) {
   if (!space) {
+    printf("Error: space is NULL in space_get_name\n");
     return NULL;
   }
   return space->name;
@@ -109,6 +104,7 @@ const char* space_get_name(Space* space) {
 
 Status space_set_north(Space* space, Id id) {
   if (!space || id == NO_ID) {
+    printf("Error: invalid parameters in space_set_north\n");
     return ERROR;
   }
   space->north = id;
@@ -117,6 +113,7 @@ Status space_set_north(Space* space, Id id) {
 
 Id space_get_north(Space* space) {
   if (!space) {
+    printf("Error: space is NULL in space_get_north\n");
     return NO_ID;
   }
   return space->north;
@@ -124,6 +121,7 @@ Id space_get_north(Space* space) {
 
 Status space_set_south(Space* space, Id id) {
   if (!space || id == NO_ID) {
+    printf("Error: invalid parameters in space_set_south\n");
     return ERROR;
   }
   space->south = id;
@@ -132,6 +130,7 @@ Status space_set_south(Space* space, Id id) {
 
 Id space_get_south(Space* space) {
   if (!space) {
+    printf("Error: space is NULL in space_get_south\n");
     return NO_ID;
   }
   return space->south;
@@ -139,6 +138,7 @@ Id space_get_south(Space* space) {
 
 Status space_set_east(Space* space, Id id) {
   if (!space || id == NO_ID) {
+    printf("Error: invalid parameters in space_set_east\n");
     return ERROR;
   }
   space->east = id;
@@ -147,6 +147,7 @@ Status space_set_east(Space* space, Id id) {
 
 Id space_get_east(Space* space) {
   if (!space) {
+    printf("Error: space is NULL in space_get_east\n");
     return NO_ID;
   }
   return space->east;
@@ -154,6 +155,7 @@ Id space_get_east(Space* space) {
 
 Status space_set_west(Space* space, Id id) {
   if (!space || id == NO_ID) {
+    printf("Error: invalid parameters in space_set_west\n");
     return ERROR;
   }
   space->west = id;
@@ -162,39 +164,34 @@ Status space_set_west(Space* space, Id id) {
 
 Id space_get_west(Space* space) {
   if (!space) {
+    printf("Error: space is NULL in space_get_west\n");
     return NO_ID;
   }
   return space->west;
 }
 
-Status space_set_object(Space* space, Bool value) {
-  if (!space) {
+Status space_add_object(Space* space, Id id) {
+  if (!space || id == NO_ID) {
+    printf("Error: invalid parameters in space_add_object\n");
     return ERROR;
   }
-
-  if (set_get_count(space->object_locations) > 0) {
-    value = TRUE;
-  } else {
-    value = FALSE;
-  }
-
-  return OK;
+  return set_add(space->objects, id);
 }
 
-Bool space_get_object(Space* space, Id id) {
-  int i, n_ids;
-
+Status space_remove_object(Space* space, Id id) {
   if (!space || id == NO_ID) {
+    printf("Error: invalid parameters in space_remove_object\n");
+    return ERROR;
+  }
+  return set_del(space->objects, id);
+}
+
+Bool space_has_object(Space* space, Id id) {
+  if (!space || id == NO_ID) {
+    printf("Error: invalid parameters in space_has_object\n");
     return FALSE;
   }
-
-  n_ids = set_get_count(space->object_locations);
-  for (i = 0; i < n_ids; i++) {
-    if (set_get_id_at(space->object_locations, i) == id) {
-      return TRUE;
-    }
-  }
-  return FALSE;
+  return set_get_id_at(space->objects, id) != NO_ID;
 }
 
 Status space_print(Space* space) {
@@ -235,12 +232,12 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
-  /* 3. Print if there is an object in the space or not */
-  n_ids = set_get_count(space->object_locations);
+  /* 3. Print if there are objects in the space or not */
+  n_ids = set_get_count(space->objects);
   if (n_ids > 0) {
     fprintf(stdout, "---> Objects in the space:\n");
     for (i = 0; i < n_ids; i++) {
-      fprintf(stdout, "------> Object Id: %ld\n", set_get_id_at(space->object_locations, i));
+      fprintf(stdout, "------> Object Id: %ld\n", set_get_id_at(space->objects, i));
     }
   } else {
     fprintf(stdout, "---> No objects in the space.\n");

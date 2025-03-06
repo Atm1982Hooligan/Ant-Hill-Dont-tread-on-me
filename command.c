@@ -47,6 +47,7 @@ Command* command_create() {
 
 Status command_destroy(Command* command) {
   if (!command) {
+    printf("Error: command is NULL in command_destroy\n");
     return ERROR;
   }
 
@@ -57,16 +58,18 @@ Status command_destroy(Command* command) {
 
 Status command_set_code(Command* command, CommandCode code) {
   if (!command) {
+    printf("Error: command is NULL in command_set_code\n");
     return ERROR;
   }
 
-  command->code=code;
+  command->code = code;
 
   return OK;
 }
 
 CommandCode command_get_code(Command* command) {
   if (!command) {
+    printf("Error: command is NULL in command_get_code\n");
     return NO_CMD;
   }
   return command->code;
@@ -78,6 +81,7 @@ Status command_get_user_input(Command* command) {
   CommandCode cmd;
 
   if (!command) {
+    printf("Error: command is NULL in command_get_user_input\n");
     return ERROR;
   }
 
@@ -96,8 +100,7 @@ Status command_get_user_input(Command* command) {
       }
     }
     return command_set_code(command, cmd);
-  }
-  else
+  } else {
     return command_set_code(command, EXIT);
-  
+  }
 }

@@ -152,25 +152,28 @@ void game_actions_back(Game *game) {
   return;
 }
 
-void game_actions_take(Game *game){
+void game_actions_take(Game *game) {
   Id object_id = NO_ID;
   Id player_id = NO_ID;
   int i = 0;
 
   player_id = game_get_player_location(game);
-  
-  if ((player_get_object(game_get_player(game))  == FALSE )) {
+
+  if (player_get_object(game_get_player(game)) == FALSE) {
     for (i = 0; i < *(game_get_n_objects(game)); i++) {
       object_id = game_get_object_location(game, i);
 
-      if (object_id == player_id) {
-        game_set_object_location(game, NO_ID, i); 
-        player_set_object(game_get_player(game), TRUE); 
+      if (space_has_object(game_get_space(game, player_id), object_id)) {
+        game_set_object_location(game, NO_ID, i);
+        player_set_object(game_get_player(game), TRUE);
+        space_remove_object(game_get_space(game, player_id), object_id);
+        printf("Object taken: %ld\n", object_id);
+        break;
       }
-
-    }    
+    }
+  } else {
+    printf("Error: player already has an object in game_actions_take\n");
   }
-
 }
 
 void game_actions_drop(Game *game) {
@@ -180,14 +183,20 @@ void game_actions_drop(Game *game) {
 
   player_id = game_get_player_location(game);
 
-  if ((player_get_object(game_get_player(game)) == TRUE)) {
+  if (player_get_object(game_get_player(game)) == TRUE) {
     for (i = 0; i < *(game_get_n_objects(game)); i++) {
       object_id = game_get_object_location(game, i);
 
       if (object_id == NO_ID) {
-        game_set_object_location(game, player_id, i);  
-        player_set_object(game_get_player(game), FALSE); 
+        game_set_object_location(game, player_id, i);
+        player_set_object(game_get_player(game), FALSE);
+        space_add_object(game_get_space(game, player_id), object_id);
+        printf("Object dropped: %ld\n", object_id);
+        break;
       }
-    }      
+    }
+  } else {
+    printf("Error: player does not have an object in game_actions_drop\n");
   }
 }
+

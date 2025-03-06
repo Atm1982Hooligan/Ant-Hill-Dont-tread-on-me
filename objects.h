@@ -89,5 +89,25 @@ Status object_set_name(Object* object, char* name);
  */
 const char* object_get_name(Object* object);
 
+/**
+ * @brief It sets the description of a object
+ * @author Alejandro González
+ * 
+ * @param object a pointer to the object
+ * @param description a string with the description to store
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status object_set_description(Object* object, char* description);
+
+/**
+ * @brief It gets the description of a object
+ * @author Alejandro González
+ * 
+ * @param object a pointer to the object
+ * @return a string with the description of the object
+ */
+Status object_set_location(Object* object, Id location);
+
+
 
 #endif

@@ -42,6 +42,7 @@ Player* player_create(Id id) {
 
 Status player_destroy(Player *player) {
   if (!player) {
+    printf("Error: player is NULL in player_destroy\n");
     return ERROR;
   }
 
@@ -52,6 +53,7 @@ Status player_destroy(Player *player) {
 
 Id player_get_id(Player* player) {
   if (!player) {
+    printf("Error: player is NULL in player_get_id\n");
     return NO_ID;
   }
   return player->id;
@@ -59,6 +61,7 @@ Id player_get_id(Player* player) {
 
 Status player_set_name(Player* player, char* name) {
   if ((player) == NULL || !(name)) {
+    printf("Error: invalid parameters in player_set_name\n");
     return ERROR;
   }
 
@@ -70,6 +73,7 @@ Status player_set_name(Player* player, char* name) {
 
 const char* player_get_name(Player* player) {
   if ((player) == NULL) {
+    printf("Error: player is NULL in player_get_name\n");
     return NULL;
   }
   return player->name;
@@ -77,6 +81,7 @@ const char* player_get_name(Player* player) {
 
 Status player_set_object(Player* player, Bool value) {
   if ((player) == NULL) {
+    printf("Error: player is NULL in player_set_object\n");
     return ERROR;
   }
   player->object = value;
@@ -85,25 +90,21 @@ Status player_set_object(Player* player, Bool value) {
 
 Bool player_get_object(Player* player) {
   if ((player) == NULL) {
+    printf("Error: player is NULL in player_get_object\n");
     return FALSE;
   }
   
-  
   return player->object;  
-  /*return TRUE;*/
 }
 
 Status player_print(Player* player) {
-  
-  /*Error Control */
   if ((player) == NULL) {
+    printf("Error: player is NULL in player_print\n");
     return ERROR;
   }
 
-  /* 1. Print the id and the name of the player*/
   fprintf(stdout, "--> Player (Id: %ld; Name: %s)\n", player->id, player->name);
 
-  /* 2. Print if there is an object in the player or not */
   if (player_get_object(player)) {
     fprintf(stdout, "---> Object in the space.\n");
   } else {
@@ -116,6 +117,7 @@ Status player_print(Player* player) {
 
 Id player_get_location(Player* player) {
   if (!player) {
+    printf("Error: player is NULL in player_get_location\n");
     return NO_ID;
   }
   return player->location;
@@ -123,6 +125,7 @@ Id player_get_location(Player* player) {
 
 Id *player_get_location_pointer(Player* player) {
   if (!player) {
+    printf("Error: player is NULL in player_get_location_pointer\n");
     return NULL;
   }
   return &(player->location);
