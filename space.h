@@ -169,4 +169,23 @@ Bool space_get_object(Space* space, Id);
  */
 Status space_print(Space* space);
 
+/**
+ * @brief It sets the id of the character in the space
+ * @author Izan Robles
+ * 
+ * @param space a pointer to the space
+ * @param id the id number of the character
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status space_set_character(Space* space, Id id);
+
+/**
+ * @brief It gets the id of the character in the space
+ * @author Izan Robles
+ * 
+ * @param space a pointer to the space
+ * @return the id number of the character
+ */
+Id space_get_character(Space* space);
+
 #endif

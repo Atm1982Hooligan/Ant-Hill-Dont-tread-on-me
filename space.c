@@ -34,7 +34,7 @@ struct _Space {
   Id south;                 /*!< Id of the space at the south */
   Id east;                  /*!< Id of the space at the east */
   Id west;                  /*!< Id of the space at the west */
-           
+  Id character;             /*!< Id of the character in the space */        
   Set *object_locations;     /*!< Set of objects in the space */ 
 
 };
@@ -58,6 +58,7 @@ Space* space_create(Id id) {
   newSpace->south = NO_ID;
   newSpace->east = NO_ID;
   newSpace->west = NO_ID;
+  newSpace->character = NO_ID;
 
   newSpace->object_locations = set_create();
   if (newSpace->object_locations == NULL) {
@@ -248,3 +249,4 @@ Status space_print(Space* space) {
 
   return OK;
 }
+
