@@ -13,7 +13,7 @@
 
 #include "types.h"
 
-#define GDESC_SIZE 7 // 6 chars + '\0'
+#define GDESC_SIZE 7
 #define MESSAGE_SIZE 1000
 
 typedef struct _Character Character;
