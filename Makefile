@@ -1,41 +1,23 @@
-EXE=anthill 
-CFLAGS = -Wall -pedantic -ansi
 CC=gcc
+CFLAGS=-Wall -g -pedantic
 
-all: anthill	
+.PHONY: clean_object clean_exe clean
 
-anthill: game_loop.o game.o command.o graphic_engine.o space.o game_actions.o objects.o game_reader.o player.o set.o
-	$(CC) -o $@ $^ -lscreen -L.
+all: test_count
 
-game_loop.o: game_loop.c
-	$(CC) $(CFLAGS) -o $@ -c $< 
+test_count: test_count.o count.o libstack.a
+	gcc -o $@ test_count.o count.o -L. -lstack
 
-game.o: game.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+count.o: count.c count.h stack.h types.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-command.o: command.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+test_count.o: test_count.c count.h stack.h types.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-graphic_engine.o: graphic_engine.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+clean_object:
+	rm -f *.o
 
-space.o: space.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+clean_exe :
+	rm -f test_count
 
-game_actions.o: game_actions.c
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-objects.o: objects.c 
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-game_reader.o: game_reader.c
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-player.o: player.c
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-set.o: set.c
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-clean:
-	rm -f anthill *.o
+clean: clean_object clean_exe
