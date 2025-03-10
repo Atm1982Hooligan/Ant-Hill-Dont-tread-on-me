@@ -190,7 +190,7 @@ Id game_get_object_location(Game *game, int position) {
 }
 
 Status game_set_object_location(Game *game, Id id, int position) {
-  if (id == NO_ID || position < 0 || position >= MAX_OBJECTS || game == NULL) {
+  if (position < 0 || position >= MAX_OBJECTS || game == NULL) {
     return ERROR;
   }
 
