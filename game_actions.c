@@ -152,6 +152,8 @@ void game_actions_back(Game *game) {
   return;
 }
 
+
+
 void game_actions_take(Game *game){
   Id object_id = NO_ID;
   Id player_id = NO_ID;
@@ -167,10 +169,8 @@ void game_actions_take(Game *game){
         game_set_object_location(game, NO_ID, i); 
         player_set_object(game_get_player(game), TRUE); 
       }
-
     }    
   }
-
 }
 
 void game_actions_drop(Game *game) {
@@ -181,6 +181,7 @@ void game_actions_drop(Game *game) {
   player_id = game_get_player_location(game);
 
   if ((player_get_object(game_get_player(game)) == TRUE)) {
+
     for (i = 0; i < *(game_get_n_objects(game)); i++) {
       object_id = game_get_object_location(game, i);
 

@@ -20,21 +20,11 @@
 #include "objects.h"
 #include "types.h"
 
-
-
-
-
 struct _Object {
    Id id;                            /*!< Id number of the object, it must be unique */
    char name[WORD_SIZE + 1];         /*!< Name of the object */
-   char description[WORD_SIZE + 1];  /*!< Description of the object */
    Id location;                      /*!< Id number of the space the object resides in */
-   Bool relocatable;                 /*!< Whether the object can be moved or not */
-
 };
-
-
-
 
 Object* object_create(Id id){
    
@@ -49,9 +39,7 @@ Object* object_create(Id id){
    newObject->id = id;
    newObject->location = NO_ID;
    newObject->name[0] = '\0';
-   newObject->description[0] = '\0';
 
-   newObject->relocatable = TRUE; 
    return newObject;
 
 }
@@ -87,7 +75,13 @@ Id *object_get_location_pointer(Object* object){
    return &(object->location);
 }
 
-
+Status object_set_location(Object* object, Id id){
+   if (!object) {
+      return ERROR;
+   }
+   object->location = id;
+   return OK;
+}
 
 Status object_set_name(Object* object, char* name){
    if ((object) == NULL || !name) {

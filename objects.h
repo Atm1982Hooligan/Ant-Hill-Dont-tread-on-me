@@ -69,7 +69,15 @@ Id object_get_location(Object* object);
  */
 Id *object_get_location_pointer(Object* object);
 
-
+/**
+ * @brief It sets the location of a object
+ * @author Alejandro Gonzalez
+ * 
+ * @param object a pointer to the object
+ * @param id the id of the location to store
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status object_set_location(Object* object, Id id);
 /**
  * @brief It sets the name of a object
  * @author Andres Falcon

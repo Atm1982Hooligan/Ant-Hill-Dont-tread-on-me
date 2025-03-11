@@ -89,3 +89,69 @@ Id game_get_space_id_at(Game *game, int position) {
   return space_get_id(SpacesPointer[position]);
 }
 
+Status game_load_objects(Game *game, char *filename) {
+  FILE *file = NULL;
+  char line[WORD_SIZE] = "";
+  char name[WORD_SIZE] = "";
+  char *toks = NULL;
+  Id id = NO_ID, location = NO_ID;
+  Object *object = NULL;
+  Status status = OK;
+
+  if (!filename) {
+    return ERROR;
+  }
+
+  file = fopen(filename, "r");
+  if (file == NULL) {
+    return ERROR;
+  }
+
+  while (fgets(line, WORD_SIZE, file)) {
+    if (strncmp("#o:", line, 3) == 0) {
+      toks = strtok(line + 3, "|");
+      id = atol(toks);
+      toks = strtok(NULL, "|");
+      strcpy(name, toks);
+      toks = strtok(NULL, "|");
+      location = atol(toks);
+#ifdef DEBUG
+      printf("Leído: %ld|%s|%ld\n", id, name, location);
+#endif
+      object = object_create(id);
+      if (object != NULL) {
+        object_set_name(object, name);
+        object_set_location(object, location);
+
+        if (game_add_objects(game, object) == ERROR) {
+          object_destroy(object);
+          fprintf(stderr, "Error while adding object to game.\n");
+        }
+      }
+    }
+  }
+
+  if (ferror(file)) {
+    status = ERROR;
+  }
+
+  fclose(file);
+  return status;
+}
+
+Status game_add_objects(Game *game, Object *object) {
+  int *numObjects = game_get_n_objects(game);
+  Object **objectPointer = game_get_objects(game);
+
+  if ((object == NULL) || (*numObjects >= MAX_OBJECTS) || (objectPointer == NULL)) {
+    fprintf(stderr, "Error while adding object to game.\n");
+    return ERROR;
+  }
+
+  objectPointer[*numObjects] = object;
+  (*numObjects)++;
+  
+  return OK;
+}
+
+

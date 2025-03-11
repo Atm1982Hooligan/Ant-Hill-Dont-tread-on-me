@@ -18,7 +18,7 @@
 #include "player.h"
 
 #define MAX_SPACES 100
-#define MAX_OBJECTS 1
+#define MAX_OBJECTS 10
 
 /**
  * @brief Game structure.
@@ -175,6 +175,7 @@ int *game_get_n_spaces(Game *game);
 
 /**
  * @brief Gets the spaces in the game.
+ * @author Alejandro Gonzalez
  *
  * @param game A pointer to the game structure.
  * @return The spaces in the game.
@@ -183,10 +184,20 @@ Space** game_get_spaces(Game *game);
 
 /**
  * @brief Gets the number of objects in the game.
+ * @author Alejandro Gonzalez
  *
  * @param game A pointer to the game structure.
  * @return The number of objects in the game.
  */
 int *game_get_n_objects(Game *game);
+
+/**
+ * @brief Gets the objects in the game.
+ * @author Alejandro Gonzalez
+ *
+ * @param game A pointer to the game structure.
+ * @return The objects in the game.
+ */
+Object** game_get_objects(Game *game);
 
 #endif
