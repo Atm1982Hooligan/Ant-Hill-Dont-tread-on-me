@@ -10,6 +10,7 @@
 
 #include "game.h"
 #include "game_reader.h"
+#include "character.h"
 
 
 #include <stdio.h>
@@ -21,8 +22,10 @@ struct _Game {
   Player *player;           /**< Pointer to the player. */
   Space *spaces[MAX_SPACES];/**< Array of spaces in the game. */
   Object *objects[MAX_OBJECTS];/**< Array of objects in the game. */
+  Character *characters[MAX_CHARACTERS];/**< Array of characters in the game. */
   int n_spaces;             /**< Number of spaces in the game. */
   int n_objects;            /**< Number of objects in the game. */
+  int n_characters;         /**< Number of characters in the game. */
   Command *last_cmd;        /**< Last command executed. */
   Bool finished;            /**< Whether the game is finished or not. */
 };
@@ -47,6 +50,18 @@ Status game_create(Game **game) {
       return ERROR;
     }
   }
+
+  /*Initialize character array*/
+  (*game)->n_characters = 0;
+  for (i = 0; i < MAX_CHARACTERS; i++)
+  {
+    (*game)->characters[i] = NULL;
+  }
+
+  /*Temp for I2*/
+  (*game)->characters[0] = character_create(1);
+  (*game)->n_characters = 1;
+  /*End temp for I2*/
 
   for (i = 0; i < MAX_SPACES; i++) {
     (*game)->spaces[i] = NULL;
@@ -85,7 +100,7 @@ Status game_create_from_file(Game **game, char *filename) {
     return ERROR;
   }
 
-  /* The player and the object are located in the first space */
+  /* The player is located in the first space */
   game_set_player_location(*game, game_get_space_id_at(*game, 0));
   /*game_set_object_location(*game, game_get_space_id_at(*game, 0), 0);*/
 
@@ -105,6 +120,17 @@ Status game_destroy(Game *game) {
       game->spaces[i] = NULL;
     }
   }
+
+  /*Checks all character array and frees as needed*/
+  for (i = 0; i < MAX_CHARACTERS; i++)
+  {
+    if (game->characters[i] != NULL)
+    {
+      character_destroy(game->characters[i]);
+    }
+    game->characters[i] = NULL;
+  }
+  
 
   if (game->player != NULL) {
     player_destroy(game->player);

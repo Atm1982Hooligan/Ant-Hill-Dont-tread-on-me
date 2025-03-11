@@ -19,6 +19,7 @@
 
 #define MAX_SPACES 100
 #define MAX_OBJECTS 10
+#define MAX_CHARACTERS 5
 
 /**
  * @brief Game structure.
