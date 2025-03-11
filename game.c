@@ -59,7 +59,7 @@ Status game_create(Game **game) {
   }
 
   /*Temp for I2*/
-  (*game)->characters[0] = character_create(1);
+  (*game)->characters[0] = character_create(122);
   (*game)->n_characters = 1;
   /*End temp for I2*/
 
