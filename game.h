@@ -201,6 +201,4 @@ int *game_get_n_objects(Game *game);
  */
 Object** game_get_objects(Game *game);
 
-
-
 #endif

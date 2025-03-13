@@ -250,19 +250,3 @@ Status space_print(Space* space) {
   return OK;
 }
 
-Id space_get_character(Space* space)
-{
-  if (!space) {
-    return NO_ID;
-  }
-  return space->character;
-}
-
-Status space_set_character(Space* space, Id id) {
-  if (!space || id == NO_ID) {
-    return ERROR;
-  }
-  space->character = id;
-  return OK;
-}
-

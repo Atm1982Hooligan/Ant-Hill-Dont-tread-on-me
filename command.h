@@ -21,7 +21,7 @@
  /**
   * @brief Number of available commands.
   */
- #define N_CMD 10
+ #define N_CMD 7
  
  /**
   * @brief Command type enumeration.
@@ -46,10 +46,7 @@
      NEXT,         /**< Next command. */
      BACK,         /**< Back command. */
      TAKE,         /**< Take command. */
-     DROP,         /**< Drop command. */
-     ATTACK,       /**< Attack command. */
-     LEFT,        /**< Left command. */
-     RIGHT        /**< Right command. */
+     DROP          /**< Drop command. */
  } CommandCode;
  
  /**
