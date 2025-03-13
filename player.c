@@ -19,6 +19,7 @@ struct _Player {
   char name[WORD_SIZE + 1]; /*Player's name*/
   Id location; /*Player's location*/
   Bool object; /*Player's object*/
+  int player_health; /*Player's health*/
 };
 
 
@@ -126,4 +127,19 @@ Id *player_get_location_pointer(Player* player) {
     return NULL;
   }
   return &(player->location);
+}
+
+Status player_set_health(Player* player, int health) {
+  if (!player || health < 0) {
+    return ERROR;
+  }
+  player->player_health = health;
+  return OK;
+}
+
+int player_get_health(Player* player) {
+  if (!player) {
+    return -1;
+  }
+  return player->player_health;
 }

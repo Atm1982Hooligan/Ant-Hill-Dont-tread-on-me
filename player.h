@@ -90,8 +90,46 @@ Bool player_get_object(Player* player);
  */
 Status player_print(Player* player);
 
+/**
+ * @brief It sets the location of a player
+ * @author Alejandro Gonzalez
+ * 
+ * @param player a pointer to the player
+ * @param location the location of the player
+ * 
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
 Id player_get_location(Player* player);
 
+/**
+ * @brief It gets the location of a player
+ * @author Alejandro Gonzalez
+ * 
+ * @param player a pointer to the player
+ * 
+ * @return the location of the player
+ */
 Id *player_get_location_pointer(Player* player); 
+
+/**
+ * @brief Changes the value of the player's health
+ * @author Izan Robles
+ * 
+ * @param player a pointer to the player
+ * @param health the new health value
+ * 
+ * @return OK, if everything goes well or ERROR if there was some mistake
+ */
+Status player_set_health(Player* player, int health);
+
+/**
+ * @brief Gets the player's health value
+ * @author Izan Robles
+ * 
+ * @param player a pointer to the player
+ * 
+ * @return the player's health value or -1 if there was an error
+ */
+int player_get_health(Player* player);
 
 #endif
