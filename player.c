@@ -1,10 +1,10 @@
 /**
- * @brief It implements the space module
+ * @brief It implements the player module
  *
  * @file player.c
  * @author Alejandro Gonzalez
- * @version 0
- * @date 27-01-2025
+ * @author Izan Robles
+ * @date 13-03-2025
  * @copyright GNU Public License
  */
 
@@ -19,6 +19,7 @@ struct _Player {
   char name[WORD_SIZE + 1]; /*Player's name*/
   Id location; /*Player's location*/
   Bool object; /*Player's object*/
+  int player_health; /*Player's health*/
 };
 
 
@@ -36,6 +37,7 @@ Player* player_create(Id id) {
   newPlayer->name[0] = '\0';
   newPlayer->location = NO_ID;
   newPlayer->object = FALSE;
+  newPlayer->player_health = 100;
 
   return newPlayer;
 }
@@ -113,7 +115,6 @@ Status player_print(Player* player) {
   return OK;
 }
 
-
 Id player_get_location(Player* player) {
   if (!player) {
     return NO_ID;
@@ -126,4 +127,19 @@ Id *player_get_location_pointer(Player* player) {
     return NULL;
   }
   return &(player->location);
+}
+
+Status player_set_health(Player* player, int health) {
+  if (!player || health < 0) {
+    return ERROR;
+  }
+  player->player_health = health;
+  return OK;
+}
+
+int player_get_health(Player* player) {
+  if (!player || player->player_health < 0) {
+    return -1;
+  }
+  return player->player_health;
 }

@@ -67,6 +67,30 @@ void game_actions_take(Game *game);
 void game_actions_drop(Game *game);
 
 /**
+ * @brief Handles the "attack" command.
+ * @author Izan Robles
+ *
+ * @param game A pointer to the game structure.
+ */
+void game_actions_attack(Game *game);
+
+/**
+ * @brief Handles the "left" command.
+ * @author Izan Robles
+ * 
+ * @param game A pointer to the game structure.
+ */
+void game_actions_left(Game *game);
+
+/**
+ * @brief Handles the "right" command.
+ * @author Izan Robles 
+ * 
+ * @param game A pointer to the game structure.
+ */
+void game_actions_right(Game *game);
+
+/**
    Game actions implementation
 */
 
@@ -100,6 +124,18 @@ Status game_actions_update(Game *game, Command *command) {
       
     case DROP:
       game_actions_drop(game);
+      break;
+
+    case ATTACK:
+      game_actions_attack(game);
+      break;
+
+    case LEFT:
+      game_actions_left(game);
+      break;
+
+    case RIGHT:
+      game_actions_right(game);
       break;
 
     default:
@@ -191,4 +227,54 @@ void game_actions_drop(Game *game) {
       }
     }      
   }
+}
+
+void game_actions_attack(Game *game) {
+  Id player_id = NO_ID;
+  Id object_id = NO_ID;
+  int i = 0;
+
+  player_id = game_get_player_location(game);
+
+  int random = rand() % 11;
+
+  if (random > 5) {
+    character_set_health(game_get_character(game), character_get_health(game_get_character(game)) - 10);
+  } else {
+    player_set_health(game_get_player(game), player_get_health(game_get_player(game)) - 10);
+  }
+}
+
+void game_actions_right(Game *game) {
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location(game);
+  if (space_id == NO_ID) {
+    return;
+  }
+
+  current_id = space_get_east(game_get_space(game, space_id));
+  if (current_id != NO_ID) {
+    game_set_player_location(game, current_id);
+  }
+
+  return;
+}
+
+void game_actions_left(Game *game) {
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location(game);
+  if (space_id == NO_ID) {
+    return;
+  }
+
+  current_id = space_get_west(game_get_space(game, space_id));
+  if (current_id != NO_ID) {
+    game_set_player_location(game, current_id);
+  }
+
+  return;
 }

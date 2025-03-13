@@ -46,7 +46,10 @@
      NEXT,         /**< Next command. */
      BACK,         /**< Back command. */
      TAKE,         /**< Take command. */
-     DROP          /**< Drop command. */
+     DROP,         /**< Drop command. */
+     ATTACK,       /**< Attack command. */
+     LEFT,        /**< Left command. */
+     RIGHT        /**< Right command. */
  } CommandCode;
  
  /**

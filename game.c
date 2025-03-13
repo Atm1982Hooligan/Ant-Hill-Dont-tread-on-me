@@ -11,6 +11,7 @@
 #include "game.h"
 #include "game_reader.h"
 #include "character.h"
+#include "time.h"
 
 
 #include <stdio.h>
@@ -43,6 +44,8 @@ struct _Game {
 
 Status game_create(Game **game) {
   int i;
+
+  srand(time(NULL));
 
   if (*game == NULL) {
     *game = (Game *)malloc(sizeof(Game));
