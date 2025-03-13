@@ -21,7 +21,7 @@
  /**
   * @brief Number of available commands.
   */
- #define N_CMD 7
+ #define N_CMD 10
  
  /**
   * @brief Command type enumeration.
