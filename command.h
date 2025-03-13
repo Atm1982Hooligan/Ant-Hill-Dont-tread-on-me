@@ -13,6 +13,11 @@
  
  #include "types.h"
  
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <strings.h>
+
  /**
   * @brief Number of command types (short and long).
   */
@@ -21,7 +26,7 @@
  /**
   * @brief Number of available commands.
   */
- #define N_CMD 7
+ #define N_CMD 10
  
  /**
   * @brief Command type enumeration.
@@ -46,7 +51,10 @@
      NEXT,         /**< Next command. */
      BACK,         /**< Back command. */
      TAKE,         /**< Take command. */
-     DROP          /**< Drop command. */
+     DROP,          /**< Drop command. */
+     ATTACK,       /**< Attack command. */
+     LEFT,         /**< Left command. */
+     RIGHT         /**< Right command. */
  } CommandCode;
  
  /**

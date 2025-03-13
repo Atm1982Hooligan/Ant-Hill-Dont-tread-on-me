@@ -14,6 +14,8 @@
 #include "command.h"
 #include "game.h"
 #include "types.h"
+#include "character.h"
+#include "player.h"
 
 /**
  * @brief Updates the game state based on the given command.

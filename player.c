@@ -134,6 +134,7 @@ Status player_set_health(Player* player, int health) {
     return ERROR;
   }
   player->player_health = health;
+  
   return OK;
 }
 
@@ -141,5 +142,6 @@ int player_get_health(Player* player) {
   if (!player || player->player_health < 0) {
     return -1;
   }
+
   return player->player_health;
 }

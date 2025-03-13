@@ -11,6 +11,7 @@
 #include "game.h"
 #include "game_reader.h"
 #include "character.h"
+#include "time.h"
 
 
 #include <stdio.h>
@@ -50,6 +51,9 @@ Status game_create(Game **game) {
       return ERROR;
     }
   }
+
+  /*Initialize seed for random numbers*/
+  srand(time(NULL));
 
   /*Initialize character array*/
   (*game)->n_characters = 0;
@@ -301,7 +305,12 @@ Object **game_get_objects(Game *game) {
   return game->objects;
 }
 
-
+Character **game_get_character_array(Game *game) {
+  if (game == NULL) {
+    return NULL;
+  }
+  return game->characters;
+}
 
 
 

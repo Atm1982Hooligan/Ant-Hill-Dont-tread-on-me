@@ -40,7 +40,7 @@ Character* character_create(Id id) {
     newCharacter->id = id;
     newCharacter->name[0] = '\0';
     newCharacter->gdesc[0] = '\0';
-    newCharacter->health = 100;  /* Default health */
+    newCharacter->health = 100; 
     newCharacter->friendly = TRUE;
     newCharacter->message[0] = '\0';
     newCharacter->location = NO_ID;

@@ -16,6 +16,7 @@
 #include "types.h"
 #include "objects.h"
 #include "player.h"
+#include "character.h"
 
 #define MAX_SPACES 100
 #define MAX_OBJECTS 10
@@ -200,5 +201,14 @@ int *game_get_n_objects(Game *game);
  * @return The objects in the game.
  */
 Object** game_get_objects(Game *game);
+
+/**
+ * @brief Gets the characters in the game.
+ * @author Izan Robles
+ * 
+ * @param game A pointer to the game structure.
+ * @return A pointer to the array of characters in the game
+ */
+Character **game_get_character_array(Game *game);
 
 #endif

@@ -10,6 +10,7 @@
 
 #include "game_actions.h"
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -67,6 +68,30 @@ void game_actions_take(Game *game);
 void game_actions_drop(Game *game);
 
 /**
+ * @brief Handles the "attack" command.
+ * @author Izan Robles
+ * 
+ * @param game A pointer to the game structure.
+ */
+void game_actions_attack(Game *game);
+
+/**
+ * @brief Handles the "left" command.
+ * @author Izan Robles
+ *
+ * @param game A pointer to the game structure.
+ */
+void game_actions_left(Game *game);
+
+/**
+ * @brief Handles the "right" command.
+ * @author Izan Robles
+ * 
+ * @param game A pointer to the game structure.
+ */
+void game_actions_right(Game *game);
+
+/**
    Game actions implementation
 */
 
@@ -102,6 +127,14 @@ Status game_actions_update(Game *game, Command *command) {
       game_actions_drop(game);
       break;
 
+    case LEFT:
+      game_actions_left(game);
+      break;
+
+    case RIGHT: 
+      game_actions_right(game);
+      break;  
+    
     default:
       break;
   }
@@ -152,8 +185,6 @@ void game_actions_back(Game *game) {
   return;
 }
 
-
-
 void game_actions_take(Game *game){
   Id object_id = NO_ID;
   Id player_id = NO_ID;
@@ -192,3 +223,81 @@ void game_actions_drop(Game *game) {
     }      
   }
 }
+
+void game_actions_attack(Game *game)
+{
+  Id player_location_id = NO_ID;
+  Id character_location_id = NO_ID;
+  Player *player = NULL;
+  Character **character_array = NULL;
+  int i, random;
+
+  player = game_get_player(game);
+  
+  if (!(character_array = game_get_character_array(game)))
+  {
+    return;
+  }
+
+  player_location_id = game_get_player_location(game);
+  if (player_location_id == NO_ID)
+  {
+    return;
+  }
+
+  for (i = 0; i < MAX_CHARACTERS; i++)
+  {
+    character_location_id = character_get_location(character_array[i]);
+    if (character_location_id == player_location_id)
+    {
+      if (character_get_friendly(character_array[i]) == FALSE)
+      {
+        random = rand() % 2;
+
+        if (random == 0) {
+          character_set_health(character_array[i], character_get_health(character_array[i]) - 10);
+        }
+        else {
+          player_set_health(player, player_get_health(player) - 10 );
+        }
+        
+      }
+    }
+  }
+}
+
+void game_actions_left(Game *game) {
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location(game);
+  if (space_id == NO_ID) {
+    return;
+  }
+
+  current_id = space_get_west(game_get_space(game, space_id));
+  if (current_id != NO_ID) {
+    game_set_player_location(game, current_id);
+  }
+
+  return;
+}
+
+void game_actions_right(Game *game) {
+  Id current_id = NO_ID;
+  Id space_id = NO_ID;
+
+  space_id = game_get_player_location(game);
+  if (space_id == NO_ID) {
+    return;
+  }
+
+  current_id = space_get_east(game_get_space(game, space_id));
+  if (current_id != NO_ID) {
+    game_set_player_location(game, current_id);
+  }
+
+  return;
+}
+
+
