@@ -8,7 +8,7 @@
 #s:127|Corridor_7|-1|126|-1|14
 #s:13 |Pantry|124|-1|-1|-1
 #s:14 |Hole|-1|-1|-1|127
-#o:21|Object_1|11
-#o:22|Object_2|121
-#o:23|Object_3|122
-#o:24|Object_4|123
+#o:21|Grain|11
+#o:22|Crumb|122
+#o:23|Leaf|122
+#o:24|Nutshell|122
