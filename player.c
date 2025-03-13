@@ -1,10 +1,10 @@
 /**
- * @brief It implements the space module
+ * @brief It implements the player module
  *
  * @file player.c
  * @author Alejandro Gonzalez
- * @version 0
- * @date 27-01-2025
+ * @author Izan Robles
+ * @date 13-03-2025
  * @copyright GNU Public License
  */
 
@@ -37,6 +37,7 @@ Player* player_create(Id id) {
   newPlayer->name[0] = '\0';
   newPlayer->location = NO_ID;
   newPlayer->object = FALSE;
+  newPlayer->player_health = 100;
 
   return newPlayer;
 }
@@ -114,7 +115,6 @@ Status player_print(Player* player) {
   return OK;
 }
 
-
 Id player_get_location(Player* player) {
   if (!player) {
     return NO_ID;
@@ -138,7 +138,7 @@ Status player_set_health(Player* player, int health) {
 }
 
 int player_get_health(Player* player) {
-  if (!player) {
+  if (!player || player->player_health < 0) {
     return -1;
   }
   return player->player_health;

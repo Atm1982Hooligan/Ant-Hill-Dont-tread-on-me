@@ -3,8 +3,8 @@
  *
  * @file player.h
  * @author Alejandro Gonzalez
- * @version 0
- * @date 27-01-2025
+ * @author Izan Robles
+ * @date 13-03-2025
  * @copyright GNU Public License
  */
 
