@@ -230,17 +230,17 @@ void game_actions_drop(Game *game) {
 }
 
 void game_actions_attack(Game *game) {
-  Id player_id = NO_ID;
+  if (game == NULL) {
+    return;
+  }
+
   int random;
+  random = rand() % 2;
 
-  player_id = game_get_player_location(game);
-
-  random = rand() % 11;
-
-  if (random > 5) {
-    character_set_health(space_get_character(game_get_player_location), character_get_health(game_get_character(game)) - 10);
-  } else {
+  if (random == 0) {
     player_set_health(game_get_player(game), player_get_health(game_get_player(game)) - 10);
+  } else {
+    character_set_health(space_get_character(game_get_player_location), character_get_health(space_get_character(game_get_player_location)) - 10);
   }
 }
 
