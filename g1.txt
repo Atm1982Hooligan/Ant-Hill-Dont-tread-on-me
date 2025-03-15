@@ -1,9 +1,0 @@
-4
-id:100 tag:Madrid
-id:200 tag:Toledo
-id:300 tag:Avila
-id:400 tag:Segovia
-100 200
-100 300
-200 400
-400 300
