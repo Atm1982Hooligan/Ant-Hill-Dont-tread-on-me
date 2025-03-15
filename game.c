@@ -29,6 +29,7 @@ struct _Game {
   int n_characters;         /**< Number of characters in the game. */
   Command *last_cmd;        /**< Last command executed. */
   Bool finished;            /**< Whether the game is finished or not. */
+  char last_message[MESSAGE_SIZE + 1]; /**< Last message received from a character. */
 };
 
 
@@ -62,11 +63,13 @@ Status game_create(Game **game) {
     (*game)->characters[i] = NULL;
   }
 
+  strcpy((*game)->last_message, "\0");
+
   /*Temp for I2*/
   (*game)->characters[0] = character_create(1);
   (*game)->n_characters = 1;
   character_set_message((*game)->characters[0], "Hello, I am the wizard, don't disturb me!");
-  character_set_friendly((*game)->characters[0], FALSE);
+  character_set_friendly((*game)->characters[0], TRUE);
   character_set_location((*game)->characters[0], 122);
   /*End temp for I2*/
 
@@ -315,6 +318,21 @@ Character **game_get_character_array(Game *game) {
   return game->characters;
 }
 
+Status game_set_last_message(Game *game, const char *message) {
+  if (!game || !message) {
+    return ERROR;
+  }
+  strncpy(game->last_message, message, MESSAGE_SIZE);
+  game->last_message[MESSAGE_SIZE] = '\0';
+  return OK;
+}
+
+const char *game_get_last_message(Game *game) {
+  if (!game) {
+    return NULL;
+  }
+  return game->last_message;
+}
 
 
 

@@ -211,4 +211,23 @@ Object** game_get_objects(Game *game);
  */
 Character **game_get_character_array(Game *game);
 
+/**
+ * @brief Sets the last message received from a character
+ * @author Izan Robles
+ *
+ * @param game A pointer to the game
+ * @param message The message to store
+ * @return OK if successful, ERROR otherwise
+ */
+Status game_set_last_message(Game *game, const char *message);
+
+/**
+ * @brief Gets the last message received from a character
+ * @author Izan Robles
+ *
+ * @param game A pointer to the game
+ * @return The last message or NULL if none exists
+ */
+const char *game_get_last_message(Game *game);
+
 #endif

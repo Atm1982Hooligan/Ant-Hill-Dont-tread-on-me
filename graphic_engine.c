@@ -75,6 +75,10 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   extern char *cmd_to_str[N_CMD][N_CMDT];
   int i;
   int game_n_objects = *(game_get_n_objects(game));
+  const char *message = NULL;
+  Character **characters;
+  Id player_location;
+  Bool same_location = FALSE;
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);
@@ -242,17 +246,30 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   /* Paint in the banner area */
   screen_area_puts(ge->banner, "    The anthill game ");
 
-  /* Paint in the help area */
-  screen_area_clear(ge->help);
-  sprintf(str, " The commands you can use are:");
-  screen_area_puts(ge->help, str);
-  sprintf(str, "next or n, back or b, right or r, left or l, take or t, drop or d, atack or a, exit or e");
-  screen_area_puts(ge->help, str);
-
   /* Paint in the feedback area */
+  screen_area_clear(ge->feedback);
   last_cmd = command_get_code(game_get_last_command(game));
   sprintf(str, " %s (%s)", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
   screen_area_puts(ge->feedback, str);
+  
+  /* Add character message if exists */
+  message = game_get_last_message(game);
+  if (message && last_cmd == CHAT) {
+  characters = game_get_character_array(game);
+  player_location = game_get_player_location(game);
+
+  for (i = 0; i < MAX_CHARACTERS; i++) {
+    if (characters[i] != NULL && character_get_location(characters[i]) == player_location) {
+      same_location = TRUE;
+      break;
+    }
+  }
+
+  if (same_location) {
+    sprintf(str, " Character says: %s", message);
+    screen_area_puts(ge->feedback, str);
+  }
+}
 
   /* Dump to the terminal */
   screen_paint();

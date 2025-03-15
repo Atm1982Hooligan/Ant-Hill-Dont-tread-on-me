@@ -92,6 +92,14 @@ void game_actions_left(Game *game);
 void game_actions_right(Game *game);
 
 /**
+ * @brief Handles the "chat" command.
+ * @author Izan Robles
+ * 
+ * @param game A pointer to the game structure.
+ */
+void game_actions_chat(Game *game);
+
+/**
    Game actions implementation
 */
 
@@ -134,6 +142,10 @@ Status game_actions_update(Game *game, Command *command) {
     case RIGHT: 
       game_actions_right(game);
       break;  
+
+    case CHAT:
+      game_actions_chat(game);
+      break;
     
     default:
       break;
@@ -299,5 +311,40 @@ void game_actions_right(Game *game) {
 
   return;
 }
+
+void game_actions_chat(Game *game){
+  Id player_location_id = NO_ID;
+  Id character_location_id = NO_ID;
+  Character **character_array = NULL;
+  int i;
+  const char *message = NULL;
+  
+  if (!(character_array = game_get_character_array(game)))
+  {
+    return;
+  }
+
+  player_location_id = game_get_player_location(game);
+  if (player_location_id == NO_ID)
+  {
+    return;
+  }
+
+  for (i = 0; i < MAX_CHARACTERS; i++)
+  {
+    character_location_id = character_get_location(character_array[i]);
+    if (character_location_id == player_location_id)
+    {
+      if (character_get_friendly(character_array[i]) == TRUE)
+      {
+        message = character_get_message(character_array[i]);
+        if (message) {
+          game_set_last_message(game, message);
+        }
+      }
+    }
+  }
+}
+
 
 
