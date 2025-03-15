@@ -19,10 +19,10 @@
 #include "types.h"
 #include "game.h"
 
-#define WIDTH_MAP 48
-#define WIDTH_DES 29
+#define WIDTH_MAP 60
+#define WIDTH_DES 35
 #define WIDTH_BAN 23
-#define HEIGHT_MAP 13
+#define HEIGHT_MAP 20
 #define HEIGHT_BAN 1
 #define HEIGHT_HLP 2
 #define HEIGHT_FDB 3
@@ -79,6 +79,11 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   Character **characters;
   Id player_location;
   Bool same_location = FALSE;
+  Object **objects = game_get_objects(game);
+  const char *obj_name;
+  Bool friendly; 
+  const char *temporal_feedback;
+  /*const char **gdesc = NULL;*/
 
   /* Paint the in the map area */
   screen_area_clear(ge->map);
@@ -88,6 +93,7 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     id_next = space_get_south(space_act);
     id_right = space_get_east(space_act);
     id_left = space_get_west(space_act);
+    /*gdesc = space_get_gdesc(space_act);*/
 
     obj = ' ';
 
@@ -141,8 +147,6 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     }
 
     if (id_act != NO_ID && id_right != NO_ID && id_left == NO_ID) {
-      
-     
       sprintf(str, "  +-----------+   +-----------+");
       screen_area_puts(ge->map, str);
       sprintf(str, "  | m0^    %3d|   |        %3d|", (int)id_act, (int)id_right);
@@ -234,15 +238,55 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
     }
   }
   
+  /*Paint in the description area*/
   screen_area_clear(ge->descript);
+  sprintf(str, "  Health: %d", player_get_health(game_get_player(game)));
+  screen_area_puts(ge->descript, str);
 
-  for (i = 0; i < game_n_objects; i++) {
-    if ((obj_loc = game_get_object_location(game, i)) != NO_ID) {
-      sprintf(str, "  Object location:%d", (int)obj_loc);
+  
+  /* Paint character info if present in current space */
+  characters = game_get_character_array(game);
+  player_location = game_get_player_location(game);
+
+  sprintf(str, " ");
+  screen_area_puts(ge->descript, str); 
+
+  for (i = 0; i < MAX_CHARACTERS; i++) {
+    if (characters[i] != NULL && character_get_location(characters[i]) == player_location) {
+      sprintf(str, "  %s:", character_get_name(characters[i]));
       screen_area_puts(ge->descript, str);
+      sprintf(str, "  Health: %d", character_get_health(characters[i]));
+      screen_area_puts(ge->descript, str);
+      friendly = character_get_friendly(characters[i]);
+      if (friendly == TRUE) {
+        sprintf(str, "  Friend");
+        screen_area_puts(ge->descript, str);
+      } else {
+        sprintf(str, "  Enemy");
+        screen_area_puts(ge->descript, str);
+      }
+      
+      break; 
     }
   }
+  
+  sprintf(str, " ");
+  screen_area_puts(ge->descript, str);
+  sprintf(str, "  Objects:");
+  screen_area_puts(ge->descript, str);
 
+  for (i = 0; i < game_n_objects; i++) {
+    if (objects[i] != NULL) {
+        obj_loc = game_get_object_location(game, i);
+        obj_name = object_get_name(objects[i]);
+        
+        if (obj_loc != NO_ID && obj_name != NULL) {
+            sprintf(str, "  %s --> %d", obj_name, (int)obj_loc);
+            screen_area_puts(ge->descript, str);
+        }
+    }
+  }
+  
   /* Paint in the banner area */
   screen_area_puts(ge->banner, "    The anthill game ");
 
@@ -251,6 +295,11 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   last_cmd = command_get_code(game_get_last_command(game));
   sprintf(str, " %s (%s)", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
   screen_area_puts(ge->feedback, str);
+  temporal_feedback = game_get_temporal_feedback(game);
+  if (temporal_feedback && last_cmd == ATTACK) {
+    sprintf(str, " %s", temporal_feedback);
+    screen_area_puts(ge->feedback, str);
+  }
   
   /* Add character message if exists */
   message = game_get_last_message(game);

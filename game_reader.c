@@ -10,8 +10,10 @@ Status game_load_spaces(Game *game, char *filename) {
   char name[WORD_SIZE] = "";
   char *toks = NULL;
   Id id = NO_ID, north = NO_ID, east = NO_ID, south = NO_ID, west = NO_ID;
+  char gdesc[GDESC_ROWS][GDESC_COLS + 1];
   Space *space = NULL;
   Status status = OK;
+  int i, len;
 
   if (!filename) {
     return ERROR;
@@ -36,9 +38,32 @@ Status game_load_spaces(Game *game, char *filename) {
       south = atol(toks);
       toks = strtok(NULL, "|");
       west = atol(toks);
-#ifdef DEBUG
-      printf("Leído: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
-#endif
+
+      for (i = 0; i < GDESC_ROWS; i++) {
+        toks = strtok(NULL, "|");
+        if (toks) {
+            while (*toks == ' ' || *toks == '\t') toks++;
+            
+            strncpy(gdesc[i], toks, GDESC_COLS);
+            gdesc[i][GDESC_COLS] = '\0';
+            
+            len = strlen(gdesc[i]);
+            while (len > 0 && (gdesc[i][len-1] == ' ' || gdesc[i][len-1] == '\t' || gdesc[i][len-1] == '\n')) {
+                gdesc[i][--len] = '\0';
+            }
+        } else {
+            memset(gdesc[i], ' ', GDESC_COLS);
+            gdesc[i][GDESC_COLS] = '\0';
+        }
+    }
+
+    #ifdef DEBUG
+    printf("Leído: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
+    printf("Gdesc:\n");
+    for (i = 0; i < GDESC_ROWS; i++) {
+        printf("[%s]\n", gdesc[i]); 
+    }
+    #endif
       space = space_create(id);
       if (space != NULL) {
         space_set_name(space, name);
@@ -46,6 +71,7 @@ Status game_load_spaces(Game *game, char *filename) {
         space_set_east(space, east);
         space_set_south(space, south);
         space_set_west(space, west);
+        space_set_gdesc(space, gdesc);
         game_add_space(game, space);
       }
     }

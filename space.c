@@ -36,12 +36,13 @@ struct _Space {
   Id west;                  /*!< Id of the space at the west */
   Id character;             /*!< Id of the character in the space */        
   Set *object_locations;     /*!< Set of objects in the space */ 
-
+  char gdesc[GDESC_ROWS][GDESC_COLS + 1]; /*!< Graphical description of the space */
 };
 
 
 Space* space_create(Id id) {
   Space* newSpace = NULL;
+  int i;
   
   /* Error control */
   if (id == NO_ID) return NULL;
@@ -64,6 +65,12 @@ Space* space_create(Id id) {
   if (newSpace->object_locations == NULL) {
     free(newSpace);
     return NULL;
+  }
+
+  /* Initialize graphical description */
+  for (i = 0; i < GDESC_ROWS; i++) {
+    memset(newSpace->gdesc[i], ' ', GDESC_COLS);
+    newSpace->gdesc[i][GDESC_COLS] = '\0';
   }
 
   return newSpace;
@@ -247,6 +254,31 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No objects in the space.\n");
   }
 
+  /* Print graphical description */
+  fprintf(stdout, "---> Graphical description:\n");
+  for (i = 0; i < GDESC_ROWS; i++) {
+    fprintf(stdout, "     %s\n", space->gdesc[i]);
+  }
+
   return OK;
 }
 
+Status space_set_gdesc(Space *space, char gdesc[GDESC_ROWS][GDESC_COLS + 1]) {
+  int i;
+  if (!space || !gdesc) {
+      return ERROR;
+  }
+  
+  for (i = 0; i < GDESC_ROWS; i++) {
+      strcpy(space->gdesc[i], gdesc[i]);
+  }
+  
+  return OK;
+}
+
+const char **space_get_gdesc(Space *space) {
+  if (!space) {
+      return NULL;
+  }
+  return (const char **)space->gdesc;
+}

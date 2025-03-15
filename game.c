@@ -30,6 +30,8 @@ struct _Game {
   Command *last_cmd;        /**< Last command executed. */
   Bool finished;            /**< Whether the game is finished or not. */
   char last_message[MESSAGE_SIZE + 1]; /**< Last message received from a character. */
+  /*TEMPORAL*/
+  char temporal_feedback[MESSAGE_SIZE + 1];
 };
 
 
@@ -65,12 +67,19 @@ Status game_create(Game **game) {
 
   strcpy((*game)->last_message, "\0");
 
-  /*Temp for I2*/
+  /*Designed especially for I2 to test character functionality*/
   (*game)->characters[0] = character_create(1);
-  (*game)->n_characters = 1;
   character_set_message((*game)->characters[0], "Hello, I am the wizard, don't disturb me!");
   character_set_friendly((*game)->characters[0], TRUE);
   character_set_location((*game)->characters[0], 122);
+  character_set_name((*game)->characters[0], "Magnus");
+
+  (*game)->characters[1] = character_create(2);
+  character_set_friendly((*game)->characters[1], FALSE);
+  character_set_location((*game)->characters[1], 13);
+  character_set_name((*game)->characters[1], "Teacher");
+
+  (*game)->n_characters = 2;
   /*End temp for I2*/
 
   for (i = 0; i < MAX_SPACES; i++) {
@@ -334,6 +343,21 @@ const char *game_get_last_message(Game *game) {
   return game->last_message;
 }
 
+const char *game_get_temporal_feedback(Game *game) {
+  if (!game) {
+      return NULL;
+  }
+  return game->temporal_feedback;
+}
+
+Status game_set_temporal_feedback(Game *game, const char *feedback) {
+  if (!game || !feedback) {
+      return ERROR;
+  }
+  strncpy(game->temporal_feedback, feedback, MESSAGE_SIZE - 1);
+  game->temporal_feedback[MESSAGE_SIZE - 1] = '\0';
+  return OK;
+}
 
 
 

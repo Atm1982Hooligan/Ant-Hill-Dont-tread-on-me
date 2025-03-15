@@ -135,6 +135,10 @@ Status game_actions_update(Game *game, Command *command) {
       game_actions_drop(game);
       break;
 
+    case ATTACK:
+      game_actions_attack(game);
+      break;
+      
     case LEFT:
       game_actions_left(game);
       break;
@@ -243,7 +247,8 @@ void game_actions_attack(Game *game)
   Player *player = NULL;
   Character **character_array = NULL;
   int i, random;
-
+  char temp[WORD_SIZE];
+  
   player = game_get_player(game);
   
   if (!(character_array = game_get_character_array(game)))
@@ -268,9 +273,13 @@ void game_actions_attack(Game *game)
 
         if (random == 0) {
           character_set_health(character_array[i], character_get_health(character_array[i]) - 10);
+          strcpy(temp, character_get_name(character_array[i]));
+          strcat(temp, " - 10");
+          game_set_temporal_feedback(game, temp);
         }
         else {
           player_set_health(player, player_get_health(player) - 10 );
+          game_set_temporal_feedback(game, "Player - 10");
         }
         
       }

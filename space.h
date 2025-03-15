@@ -11,6 +11,9 @@
 #ifndef SPACE_H
 #define SPACE_H
 
+#define GDESC_ROWS 5
+#define GDESC_COLS 9
+
 #include "types.h"
 #include "objects.h"
 
@@ -187,5 +190,24 @@ Status space_set_character(Space* space, Id id);
  * @return the id number of the character
  */
 Id space_get_character(Space* space);
+
+/**
+ * @brief Sets the graphical description of a space
+ * @author Izan Robles
+ *
+ * @param space A pointer to the space
+ * @param gdesc Array of strings containing the graphical description
+ * @return OK if successful, ERROR otherwise
+ */
+Status space_set_gdesc(Space *space, char gdesc[GDESC_ROWS][GDESC_COLS + 1]);
+
+/**
+ * @brief Gets the graphical description of a space
+ * @author Izan Robles
+ *
+ * @param space A pointer to the space
+ * @return Pointer to the graphical description array
+ */
+const char **space_get_gdesc(Space *space);
 
 #endif

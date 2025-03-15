@@ -230,4 +230,24 @@ Status game_set_last_message(Game *game, const char *message);
  */
 const char *game_get_last_message(Game *game);
 
+/**
+ * @brief Gets the temporal feedback of the game
+ * @author Izan Robles
+ * 
+ * @param game A pointer to the game
+ * @return The temporal feedback or NULL if none exists
+ */
+const char *game_get_temporal_feedback(Game *game);
+
+/**
+ * @brief Sets the temporal feedback of the game
+ * @author Izan Robles
+ * 
+ * @param game A pointer to the game
+ * @param feedback The feedback to store
+ * @return OK if successful, ERROR otherwise
+ */
+Status game_set_temporal_feedback(Game *game, const char *feedback);
+
+
 #endif
