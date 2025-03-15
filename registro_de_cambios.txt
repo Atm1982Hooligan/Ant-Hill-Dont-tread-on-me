@@ -12,3 +12,5 @@ character_get_health y character_set_health
 5º Añadido attack, left y right a struct en command.h
 6º Crear función game_get_character_array
 7º Añadir funciones left, right y attack en game_actions.c
+8º Añadido comprobación de la salud en gameloop para terminar el juego si muere el player
+9º Modificado makefile para implementar make run y make runv (con valgrind)

@@ -141,6 +141,16 @@ Status character_set_message(Character *character, char *message);
 const char *character_get_message(Character *character);
 
 /**
+ * @brief Sets the character's location id
+ * @author Izan Robles
+ *
+ * @param character A pointer to the character
+ * @param location The location id to set
+ * @return OK if successful, ERROR if there was a problem
+ */
+Status character_set_location(Character* character, Id location);
+
+/**
  * @brief Gets the character's location
  * @author Izan Robles
  *

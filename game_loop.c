@@ -101,6 +101,9 @@
          graphic_engine_paint_game(gengine, game);
          command_get_user_input(last_cmd);
          game_actions_update(game, last_cmd);
+         if (player_get_health(game_get_player(game)) <= 0) {
+             game_set_finished(game, TRUE);
+         }
      }
  
      return 0;

@@ -42,3 +42,9 @@ character.o: character.c character.h types.h
 
 clean:
 	rm -f anthill *.o
+
+make run:
+	./anthill anthill.dat
+
+make runv:
+	valgrind --leak-check=full ./anthill anthill.dat

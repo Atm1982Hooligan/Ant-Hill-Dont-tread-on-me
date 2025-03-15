@@ -63,8 +63,11 @@ Status game_create(Game **game) {
   }
 
   /*Temp for I2*/
-  (*game)->characters[0] = character_create(122);
+  (*game)->characters[0] = character_create(1);
   (*game)->n_characters = 1;
+  character_set_message((*game)->characters[0], "Hello, I am the wizard, don't disturb me!");
+  character_set_friendly((*game)->characters[0], FALSE);
+  character_set_location((*game)->characters[0], 122);
   /*End temp for I2*/
 
   for (i = 0; i < MAX_SPACES; i++) {

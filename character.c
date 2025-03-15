@@ -156,6 +156,15 @@ const char* character_get_message(Character* character) {
     return character->message;
 }
 
+Status character_set_location(Character* character, Id location) {
+    if (!character || location == NO_ID) {
+        return ERROR;
+    }
+
+    character->location = location;
+    return OK;
+}
+
 Id character_get_location(Character* character) {
     if (!character) {
         return NO_ID;
