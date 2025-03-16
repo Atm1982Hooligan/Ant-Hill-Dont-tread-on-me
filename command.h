@@ -111,6 +111,23 @@
   * @return OK if the input was successfully processed, ERROR otherwise.
   */
  Status command_get_user_input(Command* command);
+
+ /**
+  * @brief Gets the argument from a given command.
+  * @author Izan Robles
+  * 
+  * @param command A pointer to the command.
+  * @return The argument of the command.
+  */
+ const char* command_get_arg(Command* command);
  
- 
+ /**
+  * @brief Sets the argument for a given command.
+  * @author Izan Robles
+  * 
+  * @param command A pointer to the command.
+  * @param arg The argument to set.
+  * @return OK if the argument was successfully set, ERROR otherwise.
+  */
+ Status command_set_arg(Command* command, char* arg);
  #endif

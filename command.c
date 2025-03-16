@@ -14,6 +14,7 @@
 
 
 #define CMD_LENGHT 30
+#define CMD_ARG_SIZE 32
 
 char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, 
                                    {"t", "Take"}, {"d", "Drop"}, {"a", "Attack"}, {"l", "Left"}, {"r", "Right"}, {"c", "Chat"}};
@@ -25,6 +26,7 @@ char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "E
  */
 struct _Command {
   CommandCode code; /*!< Name of the command */
+  char arg[CMD_ARG_SIZE]; /*!< Argument of the command */
 };
 
 /** space_create allocates memory for a new space
@@ -38,8 +40,8 @@ Command* command_create() {
     return NULL;
   }
 
-  /* Initialization of an empty command*/
   newCommand->code = NO_CMD;
+  newCommand->arg[0] = '\0';
 
   return newCommand;
 }
@@ -94,9 +96,38 @@ Status command_get_user_input(Command* command) {
         i++;
       }
     }
-    return command_set_code(command, cmd);
+    
+    command_set_code(command, cmd);
+
+    if (cmd == TAKE) {
+      token = strtok(NULL, "\n");
+      if (token) {
+        while (*token == ' ') token++;
+        command_set_arg(command, token);
+      }
+    }
+
+    return OK;
   }
-  else
-    return command_set_code(command, EXIT);
+  return command_set_code(command, EXIT);
+}
+
+const char* command_get_arg(Command* command) {
+  if (!command) {
+    return NULL;
+  }
+  return command->arg;
+}
+
+Status command_set_arg(Command* command, char* arg) {
+  if (!command || !arg) {
+    return ERROR;
+  }
   
+  if (strlen(arg) >= CMD_ARG_SIZE) {
+    return ERROR;
+  }
+  
+  strcpy(command->arg, arg);
+  return OK;
 }
