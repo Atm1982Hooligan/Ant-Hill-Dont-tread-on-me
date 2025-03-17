@@ -1,7 +1,7 @@
 /**
  * @brief It implements the game update through user actions
  *
- * @file game.c
+ * @file game_actions.c
  * @author Profesores PPROG
  * @version 0
  * @date 27-01-2025
@@ -53,7 +53,7 @@ void game_actions_back(Game *game);
 
 /**
  * @brief Handles the "take" command.
- * @author Profesores PPROG
+ * @author Izan Robles
  *
  * @param game A pointer to the game structure.
  */
@@ -61,7 +61,7 @@ void game_actions_take(Game *game);
 
 /**
  * @brief Handles the "drop" command.
- * @author Profesores PPROG
+ * @author Izan Robles
  *
  * @param game A pointer to the game structure.
  */
@@ -105,6 +105,7 @@ void game_actions_chat(Game *game);
 
 Status game_actions_update(Game *game, Command *command) {
   CommandCode cmd;
+  Status status = OK;
 
   game_set_last_command(game, command);
 
@@ -113,6 +114,7 @@ Status game_actions_update(Game *game, Command *command) {
   switch (cmd) {
     case UNKNOWN:
       game_actions_unknown(game);
+      status = ERROR;
       break;
 
     case EXIT:
@@ -152,10 +154,11 @@ Status game_actions_update(Game *game, Command *command) {
       break;
     
     default:
+      status = ERROR;
       break;
   }
 
-  return OK;
+  return status;
 }
 
 /**
@@ -366,6 +369,3 @@ void game_actions_chat(Game *game){
     }
   }
 }
-
-
-

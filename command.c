@@ -10,28 +10,18 @@
 
 #include "command.h"
 
-
-
-
 #define CMD_LENGHT 30
 #define CMD_ARG_SIZE 32
 
 char *cmd_to_str[N_CMD][N_CMDT] = {{"", "No command"}, {"", "Unknown"}, {"e", "Exit"}, {"n", "Next"}, {"b", "Back"}, 
                                    {"t", "Take"}, {"d", "Drop"}, {"a", "Attack"}, {"l", "Left"}, {"r", "Right"}, {"c", "Chat"}};
 
-/**
- * @brief Command
- *
- * This struct stores all the information related to a command.
- */
 struct _Command {
   CommandCode code; /*!< Name of the command */
-  char arg[CMD_ARG_SIZE]; /*!< Argument of the command */
+  char arg[CMD_ARG_SIZE];
+  Status command_status;
 };
 
-/** space_create allocates memory for a new space
- *  and initializes its members
- */
 Command* command_create() {
   Command* newCommand = NULL;
 
@@ -129,5 +119,20 @@ Status command_set_arg(Command* command, char* arg) {
   }
   
   strcpy(command->arg, arg);
+  return OK;
+}
+
+Status command_get_status(Command *command) {
+  if (!command) {
+    return ERROR;
+  }
+  return command->command_status;
+}
+
+Status command_set_status(Command *command, Status status) {
+  if (!command) {
+    return ERROR;
+  }
+  command->command_status = status;
   return OK;
 }

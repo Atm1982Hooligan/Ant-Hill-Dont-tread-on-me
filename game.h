@@ -30,7 +30,6 @@
  */
 typedef struct _Game Game;
 
-
 /**
  * @brief Creates a new game.
  * @author Profesores PPROG
@@ -39,6 +38,7 @@ typedef struct _Game Game;
  * @return OK if the game was successfully created, ERROR otherwise.
  */
 Status game_create(Game **game);
+
 /**
  * @brief Creates a new game from a file.
  * @author Profesores PPROG
@@ -48,7 +48,6 @@ Status game_create(Game **game);
  * @return OK if the game was successfully created, ERROR otherwise.
  */
 Status game_create_from_file(Game **game, char *filename);
-
 
 /**
  * @brief Destroys a game, freeing the allocated memory.
@@ -165,7 +164,6 @@ Status game_set_finished(Game *game, Bool finished);
 void game_print(Game *game);
 
 /*ADDITIONAL FUNCTIONS*/
-
 
 /**
  * @brief Gets the number of spaces in the game.

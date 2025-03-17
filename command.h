@@ -130,4 +130,25 @@
   * @return OK if the argument was successfully set, ERROR otherwise.
   */
  Status command_set_arg(Command* command, char* arg);
+
+  /**
+  *  @brief Gets the status of a given command.
+  * @author Alejandro Gonzalez
+  * 
+  * @param command A pointer to the command.
+  * @return The status of the command.
+  */  
+ Status command_get_status(Command *command);
+
+  /**
+  * 
+  * @brief Sets the status of a given command.
+  * @author Alejandro Gonzalez
+  * 
+  * @param command A pointer to the command.
+  * @param status The status to set.
+  *  @return OK if the status was successfully set, ERROR otherwise.
+  */
+ Status command_set_status(Command *command, Status status);
+
  #endif

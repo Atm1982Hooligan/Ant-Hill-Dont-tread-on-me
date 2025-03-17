@@ -55,15 +55,15 @@ Status game_load_spaces(Game *game, char *filename) {
             memset(gdesc[i], ' ', GDESC_COLS);
             gdesc[i][GDESC_COLS] = '\0';
         }
-    }
+      }
 
-    #ifdef DEBUG
-    printf("Leído: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
-    printf("Gdesc:\n");
-    for (i = 0; i < GDESC_ROWS; i++) {
-        printf("[%s]\n", gdesc[i]); 
-    }
-    #endif
+      #ifdef DEBUG
+      printf("Leído: %ld|%s|%ld|%ld|%ld|%ld\n", id, name, north, east, south, west);
+      printf("Gdesc:\n");
+      for (i = 0; i < GDESC_ROWS; i++) {
+          printf("[%s]\n", gdesc[i]); 
+      }
+      #endif
       space = space_create(id);
       if (space != NULL) {
         space_set_name(space, name);
@@ -85,9 +85,7 @@ Status game_load_spaces(Game *game, char *filename) {
   return status;
 }
 
-
 Status game_add_space(Game *game, Space *space) {
-
   int *numSpaces = game_get_n_spaces(game);
   Space **spacePointer = game_get_spaces(game);
 
@@ -95,8 +93,6 @@ Status game_add_space(Game *game, Space *space) {
     return ERROR;
   }
 
-
-  
   spacePointer[*numSpaces] = space;
   (*numSpaces)++;
 
@@ -104,7 +100,6 @@ Status game_add_space(Game *game, Space *space) {
 }
 
 Id game_get_space_id_at(Game *game, int position) {
-
   int *numSpaces = game_get_n_spaces(game);
   Space **SpacesPointer = game_get_spaces(game);
 

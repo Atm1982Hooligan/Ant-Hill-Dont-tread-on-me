@@ -11,8 +11,6 @@
  * 
  */
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,7 +25,6 @@ struct _Object {
 };
 
 Object* object_create(Id id){
-   
    Object *newObject = NULL;
 
    newObject = (Object*)malloc(sizeof(Object));
@@ -35,7 +32,6 @@ Object* object_create(Id id){
       return NULL;
    }
 
-   /* Initialization of an empty space*/
    newObject->id = id;
    newObject->location = NO_ID;
    newObject->name[0] = '\0';

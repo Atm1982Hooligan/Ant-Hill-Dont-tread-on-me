@@ -16,17 +16,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * @brief Space
- *
- * This struct stores all the information of a space.
- */
-
-
-/** space_create allocates memory for a new space
- *  and initializes its members
- */
-
 struct _Space {
   Id id;                    /*!< Id number of the space, it must be unique */
   char name[WORD_SIZE + 1]; /*!< Name of the space */
@@ -36,15 +25,13 @@ struct _Space {
   Id west;                  /*!< Id of the space at the west */
   Id character;             /*!< Id of the character in the space */        
   Set *object_locations;     /*!< Set of objects in the space */ 
-  char gdesc[GDESC_ROWS][GDESC_COLS + 1]; /*!< Graphical description of the space */
+  char gdesc[GDESC_ROWS][GDESC_COLS]; /*!< Graphical description of the space */
 };
-
 
 Space* space_create(Id id) {
   Space* newSpace = NULL;
   int i;
-  
-  /* Error control */
+
   if (id == NO_ID) return NULL;
 
   newSpace = (Space*)malloc(sizeof(Space));
@@ -52,7 +39,6 @@ Space* space_create(Id id) {
     return NULL;
   }
 
-  /* Initialization of an empty space */
   newSpace->id = id;
   newSpace->name[0] = '\0';
   newSpace->north = NO_ID;
@@ -209,15 +195,12 @@ Status space_print(Space* space) {
   Id idaux = NO_ID;
   int i, n_ids;
 
-  /* Error Control */
   if (!space) {
     return ERROR;
   }
 
-  /* 1. Print the id and the name of the space */
   fprintf(stdout, "--> Space (Id: %ld; Name: %s)\n", space->id, space->name);
 
-  /* 2. For each direction, print its link */
   idaux = space_get_north(space);
   if (idaux != NO_ID) {
     fprintf(stdout, "---> North link: %ld.\n", idaux);
@@ -243,7 +226,6 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No west link.\n");
   }
 
-  /* 3. Print if there is an object in the space or not */
   n_ids = set_get_count(space->object_locations);
   if (n_ids > 0) {
     fprintf(stdout, "---> Objects in the space:\n");
@@ -254,7 +236,6 @@ Status space_print(Space* space) {
     fprintf(stdout, "---> No objects in the space.\n");
   }
 
-  /* Print graphical description */
   fprintf(stdout, "---> Graphical description:\n");
   for (i = 0; i < GDESC_ROWS; i++) {
     fprintf(stdout, "     %s\n", space->gdesc[i]);

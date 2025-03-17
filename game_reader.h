@@ -3,7 +3,6 @@
 
 #include "game.h"
 
-
 /**
  * @brief Loads spaces for a Map inside a game structure.
  * @author Profesores PPROG
@@ -14,7 +13,6 @@
  */
 Status game_load_spaces(Game *game, char *filename);
 
-
 /**
  * @brief Adds a space to the Game structure
  * @author Profesores PPROG
@@ -24,8 +22,6 @@ Status game_load_spaces(Game *game, char *filename);
  * @return OK if the space was added successfully, ERROR otherwise.
  */
 Status game_add_space(Game *game, Space *space);
-
-
 
 /**
  * @brief Gets the Id of the Space in the "position" its list 

@@ -32,7 +32,6 @@ Player* player_create(Id id) {
     return NULL;
   }
 
-  /* Initialization of an empty space*/
   newPlayer->id = id;
   newPlayer->name[0] = '\0';
   newPlayer->location = NO_ID;
@@ -90,22 +89,17 @@ Bool player_get_object(Player* player) {
     return FALSE;
   }
   
-  
   return player->object;  
   /*return TRUE;*/
 }
 
 Status player_print(Player* player) {
-  
-  /*Error Control */
   if ((player) == NULL) {
     return ERROR;
   }
 
-  /* 1. Print the id and the name of the player*/
   fprintf(stdout, "--> Player (Id: %ld; Name: %s)\n", player->id, player->name);
 
-  /* 2. Print if there is an object in the player or not */
   if (player_get_object(player)) {
     fprintf(stdout, "---> Object in the space.\n");
   } else {

@@ -90,6 +90,7 @@
  
  int game_loop_run(Game *game, Graphic_engine *gengine) {
      Command *last_cmd;
+     Status cmd_status;
  
      if (!gengine) {
          return 1;
@@ -100,7 +101,8 @@
      while ((command_get_code(last_cmd) != EXIT) && (game_get_finished(game) == FALSE)) {
          graphic_engine_paint_game(gengine, game);
          command_get_user_input(last_cmd);
-         game_actions_update(game, last_cmd);
+         cmd_status = game_actions_update(game, last_cmd);
+         command_set_status(last_cmd, cmd_status);
          if (player_get_health(game_get_player(game)) <= 0) {
              game_set_finished(game, TRUE);
          }

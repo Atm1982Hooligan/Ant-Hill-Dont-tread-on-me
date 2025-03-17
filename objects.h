@@ -11,14 +11,12 @@
  * 
  */
 
-
 #ifndef OBJECTS_H
 #define OBJECTS_H
 
 #include "types.h"
 
 typedef struct _Object Object;
-
 
 #define MAX_SPACES 100
 
@@ -30,7 +28,6 @@ typedef struct _Object Object;
  * @return a pointer for a new object, initialized
  */
 Object* object_create(Id id);
-
 
 /**
  * @brief It destros an existing object, freeing the allocated memory
@@ -49,7 +46,6 @@ Status object_destroy(Object* object);
  * @return the id of object
  */
 Id object_get_id(Object* object);
-
 
 /** 
  * @brief It gets the location of a object
@@ -78,6 +74,7 @@ Id *object_get_location_pointer(Object* object);
  * @return OK, if everything goes well or ERROR if there was some mistake
  */
 Status object_set_location(Object* object, Id id);
+
 /**
  * @brief It sets the name of a object
  * @author Andres Falcon

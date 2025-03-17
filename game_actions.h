@@ -1,7 +1,7 @@
 /**
- * @brief It defines the game update interface
+ * @brief It defines the game actions
  *
- * @file game.h
+ * @file game_actions.h
  * @author Profesores PPROG
  * @version 0
  * @date 27-01-2025

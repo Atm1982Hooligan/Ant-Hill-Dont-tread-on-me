@@ -34,17 +34,6 @@ struct _Game {
   char temporal_feedback[MESSAGE_SIZE + 1];
 };
 
-
-
-/**
-   Private functions
-*/
-
-
-/**
-   Game interface implementation
-*/
-
 Status game_create(Game **game) {
   int i;
 
@@ -216,24 +205,22 @@ Status game_set_player_location(Game *game, Id id) {
 }
 
 Id game_get_object_location(Game *game, int position) { 
-  /*!< This is for the for-loop further down the code*/
   int i = 0;
 
   if (game == NULL || position < 0 || position >= MAX_OBJECTS || game->objects[position] == NULL) {
     return NO_ID;  
   }
   
-  /*!<It will cycle thorugh each space in "nSpaces" and check if its object is the same one as object id*/
   for (i = 0; i < game->n_spaces; i++)
   {
     
     if (game->spaces[i] != NULL  &&  (space_get_id(game->spaces[i]) ==  object_get_location(game->objects[position])) )
     {
-      return object_get_location(game->objects[position]); /* !< Correctly access the id of the first object*/
+      return object_get_location(game->objects[position]);
     }
   }
   
-  return NO_ID;  /*!< Returns NO_ID if no object within a space was found*/
+  return NO_ID;
 }
 
 Status game_set_object_location(Game *game, Id id, int position) {
@@ -358,8 +345,3 @@ Status game_set_temporal_feedback(Game *game, const char *feedback) {
   game->temporal_feedback[MESSAGE_SIZE - 1] = '\0';
   return OK;
 }
-
-
-
-
-
