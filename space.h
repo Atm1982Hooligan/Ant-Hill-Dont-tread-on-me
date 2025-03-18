@@ -16,6 +16,7 @@
 
 #include "types.h"
 #include "objects.h"
+#include "set.h"
 
 typedef struct _Space Space;
 
@@ -208,5 +209,14 @@ Status space_set_gdesc(Space *space, char gdesc[GDESC_ROWS][GDESC_COLS + 1]);
  * @return Pointer to the graphical description array
  */
 const char **space_get_gdesc(Space *space);
+
+/**
+ * @brief Gets the object locations in a space
+ * @author Alejandro Gonzalez
+ * 
+ * @param space A pointer to the space
+ * @return A pointer to the set of object locations
+ */
+Set *space_get_object_locations(Space *space);
 
 #endif

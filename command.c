@@ -32,6 +32,7 @@ Command* command_create() {
 
   newCommand->code = NO_CMD;
   newCommand->arg[0] = '\0';
+  newCommand->command_status = ERROR;
 
   return newCommand;
 }

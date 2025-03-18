@@ -528,13 +528,15 @@ void graphic_engine_paint_game(Graphic_engine *ge, Game *game) {
   screen_area_clear(ge->feedback);
   last_cmd = command_get_code(game_get_last_command(game));
   cmd_status = command_get_status(game_get_last_command(game));
+  
   if (cmd_status == OK) {
     sprintf(str, " %s (%s) - OK", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
   } else {
     sprintf(str, " %s (%s) - ERROR", cmd_to_str[last_cmd - NO_CMD][CMDL], cmd_to_str[last_cmd - NO_CMD][CMDS]);
   }
   screen_area_puts(ge->feedback, str);
-temporal_feedback = game_get_temporal_feedback(game);
+
+  temporal_feedback = game_get_temporal_feedback(game);
   if (temporal_feedback && last_cmd == ATTACK) {
     sprintf(str, " %s", temporal_feedback);
     screen_area_puts(ge->feedback, str);

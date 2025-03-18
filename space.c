@@ -263,3 +263,9 @@ const char **space_get_gdesc(Space *space) {
   }
   return (const char **)space->gdesc;
 }
+Set *space_get_object_locations(Space *space) {
+  if (!space) {
+    return NULL;
+  }
+  return space->object_locations;
+}

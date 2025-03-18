@@ -2,7 +2,7 @@ EXE=anthill
 CFLAGS = -Wall -pedantic -ansi
 CC=gcc
 
-all: anthill	
+all: anthill space_test set_test character_test
 
 anthill: game_loop.o game.o command.o graphic_engine.o space.o game_actions.o objects.o game_reader.o player.o set.o character.o
 	$(CC) -o $@ $^ -lscreen -L.
@@ -40,11 +40,32 @@ set.o: set.c set.h types.h
 character.o: character.c character.h types.h
 	$(CC) $(CFLAGS) -o $@ -c $<
 
+space_test.o: space_test.c space.h test.h
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+space_test: space_test.o space.o set.o
+	$(CC) -o $@ $^
+
+set_test.o: set_test.c set.h test.h
+	$(CC) $(CFLAGS) -o $@ -c $<
+    
+set_test: set_test.o set.o
+	$(CC) -o $@ $^
+
+character_test: character_test.o character.o
+	$(CC) -o $@ $^
+
 clean:
-	rm -f anthill *.o
+	rm -f anthill space_test set_test character_test *.o
 
 run:
 	./anthill anthill.dat
 
 runv:
 	valgrind --leak-check=full ./anthill anthill.dat
+
+test: space_test set_test character_test
+	
+testv:
+	valgrind --leak-check=full ./space_test
+	valgrind --leak-check=full ./set_test
