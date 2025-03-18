@@ -289,14 +289,27 @@ void game_actions_attack(Game *game)
         if (random == 0) {
           character_set_health(character_array[i], character_get_health(character_array[i]) - 10);
           strcpy(temp, character_get_name(character_array[i]));
-          strcat(temp, " - 10");
-          game_set_temporal_feedback(game, temp);
+          if (character_get_health(character_array[i]) > 0)
+          {
+            strcat(temp, " - 10");
+            game_set_temporal_feedback(game, temp);
+          }
+          else
+          {
+            game_set_temporal_feedback(game, "Can`t attack a dead character");
+          }
         }
         else {
-          player_set_health(player, player_get_health(player) - 10 );
-          game_set_temporal_feedback(game, "Player - 10");
+          if (character_get_health(character_array[i]) > 0)
+          {
+            player_set_health(player, player_get_health(player) - 10 );
+            game_set_temporal_feedback(game, "Player - 10");
+          }
+          else
+          {
+            game_set_temporal_feedback(game, "Can`t attack a dead character");
+          }
         }
-        
       }
     }
   }
