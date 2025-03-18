@@ -296,7 +296,7 @@ void game_actions_attack(Game *game)
           }
           else
           {
-            game_set_temporal_feedback(game, "Can`t attack a dead character");
+            game_set_temporal_feedback(game, "Character is dead");
           }
         }
         else {
@@ -307,7 +307,7 @@ void game_actions_attack(Game *game)
           }
           else
           {
-            game_set_temporal_feedback(game, "Can`t attack a dead character");
+            game_set_temporal_feedback(game, "Character is dead");
           }
         }
       }
