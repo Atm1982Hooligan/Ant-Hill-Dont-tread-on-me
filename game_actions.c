@@ -296,10 +296,12 @@ void game_actions_attack(Game *game)
           }
           else
           {
-            game_set_temporal_feedback(game, "Character is dead");
+            strcat (temp, " is dead");
+            game_set_temporal_feedback(game, temp);
           }
         }
         else {
+          
           if (character_get_health(character_array[i]) > 0)
           {
             player_set_health(player, player_get_health(player) - 10 );
@@ -307,7 +309,9 @@ void game_actions_attack(Game *game)
           }
           else
           {
-            game_set_temporal_feedback(game, "Character is dead");
+            strcpy(temp, character_get_name(character_array[i]));
+            strcat(temp, " is dead");
+            game_set_temporal_feedback(game, temp);
           }
         }
       }
